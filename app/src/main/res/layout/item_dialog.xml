@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+    android:id="@+id/dialogImage"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/ic_launcher"
+    android:maxWidth="150dp"/>
+
+    <TextView
+        android:id="@+id/diagName"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/name"
+        android:layout_toRightOf="@+id/dialogImage"/>
+
+    <TextView
+        android:id="@+id/diagFirstName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/firstName"
+        android:layout_below="@+id/diagName"
+        android:layout_toRightOf="@+id/dialogImage"/>
+
+    <TextView
+        android:id="@+id/diagSize"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Taille"
+        android:layout_below="@+id/diagFirstName"
+        android:layout_toRightOf="@+id/dialogImage"/>
+
+    <Button
+        android:id="@+id/dialogButtonClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/close"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/diagSize"/>
+
+</RelativeLayout>

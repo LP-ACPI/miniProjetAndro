@@ -1,0 +1,34 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          
+    package="iut.lp2017.acpi"
+    >
+
+    <application android:allowBackup="true"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="iut.lp2017.acpi.tps_first.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="iut.lp2017.acpi.tps_first.SecondActivity"
+            android:label="@string/TP_1" >
+        </activity>
+        <activity
+            android:name="iut.lp2017.acpi.tps_first.ListActivity"
+            android:label="@string/TP_2" >
+        </activity>
+        <activity
+            android:name="iut.lp2017.acpi.photos.FullScreenPhotoActivity"
+            android:label="@string/TP_2" >
+        </activity>
+    </application>
+
+</manifest>
