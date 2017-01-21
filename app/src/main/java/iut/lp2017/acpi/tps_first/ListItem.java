@@ -4,8 +4,6 @@ package iut.lp2017.acpi.tps_first;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +30,7 @@ public class ListItem {
             this.imageSource = imgs[ixImg];
             InputStream stream = context.getAssets().open(imageSource);
             this.imageBitmap = BitmapFactory.decodeStream(stream);
-            this.taille = imageBitmap.getByteCount();
+            this.taille = imageBitmap.getRowBytes();
             this.nom = nom;
             this.prenom = prenom;
         } catch (IOException e) {
@@ -40,14 +38,13 @@ public class ListItem {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB_MR1)
     public ListItem(Context context, String imageSource, String nom, String prenom) {
         this(context,nom,prenom);
         try {
             this.imageSource = imageSource;
             InputStream stream = context.getAssets().open(imageSource);
             setImageBitmap(BitmapFactory.decodeStream(stream));
-            setTaille(getImageBitmap().getByteCount());
+            setTaille(getImageBitmap().getRowBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }

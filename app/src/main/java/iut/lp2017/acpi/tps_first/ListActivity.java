@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -16,6 +14,7 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import iut.lp2017.acpi.R;
 import iut.lp2017.acpi.photos.PhotoModel;
 import iut.lp2017.acpi.photos.PhotosController;
 import iut.lp2017.acpi.photos.PhotosLayout;
@@ -68,7 +67,6 @@ public class ListActivity extends Activity {
         saveInstance();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB_MR1)
     private List generateItems(List<String> noms, List<String> prenoms, List<String> imgs){
         List<ListItem> out = new ArrayList<ListItem>();
         int i = 0;
@@ -104,7 +102,6 @@ public class ListActivity extends Activity {
         DataHandler.getInstance().setNameList(nameList);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB_MR1)
     private void initInstance(){
 
         firstNameList = DataHandler.getInstance().getFirstNameList();

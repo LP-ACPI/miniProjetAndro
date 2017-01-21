@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import iut.lp2017.acpi.R;
+
 public class MainActivity extends Activity {
 
     private static final String CREATE  = "ON CREATE";

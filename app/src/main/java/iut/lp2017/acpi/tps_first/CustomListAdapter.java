@@ -11,8 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import java.util.List;
+
+import iut.lp2017.acpi.R;
 
 /**
  * Created by necesanym on 04/01/17.

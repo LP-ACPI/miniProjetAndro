@@ -1,7 +1,7 @@
-<<<<<<< HEAD
 /*
 !.gitignore
 !README.md
-
+app/
+!app/*
 app/src/
 !app/src/*

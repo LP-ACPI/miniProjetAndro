@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import iut.lp2017.acpi.R;
+
 
 /**
  * Created by necesanym on 14/12/2016.

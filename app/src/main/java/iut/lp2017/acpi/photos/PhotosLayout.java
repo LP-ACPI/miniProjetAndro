@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import iut.lp2017.acpi.R;
+
 /**
  * Created by necesanym on 18/01/17.
  */

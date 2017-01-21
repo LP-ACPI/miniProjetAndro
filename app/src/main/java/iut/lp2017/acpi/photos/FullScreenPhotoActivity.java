@@ -5,9 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,7 +24,6 @@ public class FullScreenPhotoActivity extends Activity {
 
     private static final String PHOTO_NAME_LABEL = "intent.tpun.acpi.photo_source";
 
-    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB_MR2)
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -44,7 +42,6 @@ public class FullScreenPhotoActivity extends Activity {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB_MR2)
     public RelativeLayout initFullScreenView(String image){
         RelativeLayout fullScreen = new RelativeLayout(this);
 
@@ -55,14 +52,19 @@ public class FullScreenPhotoActivity extends Activity {
         fullScreen.setLayoutParams(fulScreenParams);
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
-        display.getSize(size);
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        int height = metrics.heightPixels;
+        int width = metrics.widthPixels;
         InputStream stream = null;
         try {
             stream = getAssets().open(image);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Bitmap bmp = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(stream),size.x,size.y,true);
+        Bitmap bmp = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(stream),width,height,true);
         ImageView fullscreenImage = new ImageView(this);
         fullscreenImage.setImageBitmap(bmp);
 

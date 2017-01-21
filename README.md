@@ -4,7 +4,7 @@ en continuité avec les TPs réalisés jusque là, application de ce qui a été
 
 - Listview et Adapter
 - DOM/SAX (surtout SAX) lecteurs de XML
-- chargements et affichage d'images
+- chargements et affichage d'images depuis url web
 - gestion de gestes sur les images
 - Archi MVC
 - etc. 
