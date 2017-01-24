@@ -16,6 +16,8 @@ import android.widget.RelativeLayout;
 import java.io.IOException;
 import java.io.InputStream;
 
+import iut.lp2017.acpi.utilitaires.BitmapScaler;
+
 /**
  * Created by necesanym on 18/01/17.
  */
@@ -64,7 +66,8 @@ public class FullScreenPhotoActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Bitmap bmp = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(stream),width,height,true);
+
+        Bitmap bmp = BitmapScaler.scaleToFitWidth(BitmapFactory.decodeStream(stream),width);//Bitmap.createScaledBitmap(,1000,1000,true);
         ImageView fullscreenImage = new ImageView(this);
         fullscreenImage.setImageBitmap(bmp);
 
