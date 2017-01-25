@@ -1,12 +1,10 @@
 package iut.lp2017.acpi.photos;
 
-import android.util.Log;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.OnScaleGestureListener;
-import android.view.View;
 
 /**
  * Created by Marek on 24/01/2017.
@@ -38,18 +36,22 @@ public class GestControl implements OnGestureListener,OnScaleGestureListener,OnD
 
     @Override
     public boolean onScale(ScaleGestureDetector detector) {
-
-        return false;
+        float zoom = detector.getScaleFactor();
+        zoom = Math.max(0.1f, Math.min(zoom, 5.0f));
+        view.animateScale(zoom);
+        return true;
     }
 
     @Override
     public boolean onScaleBegin(ScaleGestureDetector detector) {
-        return false;
+        return true;
     }
 
     @Override
     public void onScaleEnd(ScaleGestureDetector detector) {
-
+        float zoom = detector.getScaleFactor();
+        zoom = Math.max(0.1f, Math.min(zoom, 5.0f));
+        view.updateImgAfterScale(zoom);
     }
 
     @Override
@@ -69,10 +71,6 @@ public class GestControl implements OnGestureListener,OnScaleGestureListener,OnD
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        float coefDistance = 0.1f;
-        final float dist_dX = coefDistance*distanceX;
-        final float dist_dY = coefDistance*distanceY;
-
         view.animateMove(distanceX, distanceY);
         return true;
     }
@@ -84,6 +82,11 @@ public class GestControl implements OnGestureListener,OnScaleGestureListener,OnD
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+//        final float coefTemps = 0.4f;
+//        final float dx = (coefTemps * velocityX / 2);
+//        final float dy = (coefTemps * velocityY / 2);
+//
+//        view.animateFlingMove(-dx,-dy);
         return false;
     }
 }

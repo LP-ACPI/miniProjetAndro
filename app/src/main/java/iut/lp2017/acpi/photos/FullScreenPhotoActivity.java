@@ -2,17 +2,13 @@ package iut.lp2017.acpi.photos;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.Display;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,53 +35,26 @@ public class FullScreenPhotoActivity extends Activity {
 
         String imageSource = ListActivityInt.getStringExtra(PHOTO_NAME_LABEL);
 
+        setContentView(R.layout.activity_fullscreen);
+        FullScreenView fsView = (FullScreenView) findViewById(R.id.fullscreenview);
+        fsView.set_IMGName(imageSource);
+
         InputStream stream = null;
         try {
             stream = getAssets().open(imageSource);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-//        setContentView(initFullScreenView(imageSource));
-        setContentView(R.layout.activity_fullscreen);
-
         Bitmap bmp = BitmapFactory.decodeStream(stream);
-        FullScreenView fsView = (FullScreenView) findViewById(R.id.fullscreenview);
-        fsView.set_BMPimage(bmp);
-        fsView.set_IMGName(imageSource);
-        fsView.initImg();
-    }
-
-    public RelativeLayout initFullScreenView(String image){
-        RelativeLayout fullScreen = new RelativeLayout(this);
-
-        RelativeLayout.LayoutParams fulScreenParams = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.MATCH_PARENT
-        );
-        fullScreen.setLayoutParams(fulScreenParams);
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        boolean isPortrait = Configuration.ORIENTATION_PORTRAIT == getResources().getConfiguration().orientation;
+        if (isPortrait)
+            fsView.set_BMPimage(BitmapScaler.scaleToFitWidth(bmp,metrics.widthPixels));
+        else
+            fsView.set_BMPimage(BitmapScaler.scaleToFitHeight(bmp,metrics.heightPixels));
 
-        int height = metrics.heightPixels;
-        int width = metrics.widthPixels;
-        InputStream stream = null;
-        try {
-            stream = getAssets().open(image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Bitmap bmp = BitmapScaler.scaleToFitWidth(BitmapFactory.decodeStream(stream),width);//Bitmap.createScaledBitmap(,1000,1000,true);
-        ImageView fullscreenImage = new ImageView(this);
-        fullscreenImage.setImageBitmap(bmp);
-
-        fullScreen.addView(fullscreenImage);
-        return fullScreen;
     }
 
 }
