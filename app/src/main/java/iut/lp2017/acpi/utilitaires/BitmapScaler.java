@@ -1,6 +1,9 @@
 package iut.lp2017.acpi.utilitaires;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.util.DisplayMetrics;
 
 /**
  * Created by Marek on 24/01/2017.
@@ -40,5 +43,13 @@ public class BitmapScaler
         float factorW = width / (float) b.getWidth();
         return Bitmap.createScaledBitmap(b, (int) (b.getWidth() * factorW),
                 (int) (b.getHeight() * factorH), true);
+    }
+
+    public static float dpToPx(float dp, Context context)
+    {
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        float px = dp * (metrics.densityDpi / 160f);
+        return px;
     }
 }

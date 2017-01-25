@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import android.widget.RelativeLayout;
 import java.io.IOException;
 import java.io.InputStream;
 
+import iut.lp2017.acpi.R;
 import iut.lp2017.acpi.utilitaires.BitmapScaler;
 
 /**
@@ -37,11 +39,22 @@ public class FullScreenPhotoActivity extends Activity {
 
         String imageSource = ListActivityInt.getStringExtra(PHOTO_NAME_LABEL);
 
+        InputStream stream = null;
+        try {
+            stream = getAssets().open(imageSource);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        setContentView(initFullScreenView(imageSource));
 
-    /* adapt the image to the size of the display */
+//        setContentView(initFullScreenView(imageSource));
+        setContentView(R.layout.activity_fullscreen);
 
+        Bitmap bmp = BitmapFactory.decodeStream(stream);
+        FullScreenView fsView = (FullScreenView) findViewById(R.id.fullscreenview);
+        fsView.set_BMPimage(bmp);
+        fsView.set_IMGName(imageSource);
+        fsView.initImg();
     }
 
     public RelativeLayout initFullScreenView(String image){

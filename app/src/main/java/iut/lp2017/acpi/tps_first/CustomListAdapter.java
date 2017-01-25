@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import iut.lp2017.acpi.R;
+import iut.lp2017.acpi.utilitaires.BitmapScaler;
 
 /**
  * Created by necesanym on 04/01/17.
@@ -48,22 +49,14 @@ public class CustomListAdapter extends ArrayAdapter<ListItem> {
 
         viewHolder.nom.setText(item.getNom());
         viewHolder.prenom.setText(item.getPrenom());
-        Bitmap img = item.getImageBitmap();
-        viewHolder.imgV.setImageBitmap(Bitmap.createScaledBitmap(img, (int)dpToPx(80,context),(int)dpToPx(80,context),false));
+        Bitmap img = BitmapScaler.scaleToFitHeight(item.getImageBitmap(), (int)BitmapScaler.dpToPx(80,context));
+        viewHolder.imgV.setImageBitmap(img);
         viewHolder.size.setText(Double.toString(item.getTaille()));
 
         return convertView;
     }
 
-    public static float dpToPx(float dp, Context context)
-    {
-        Resources resources = context.getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        float px = dp * (metrics.densityDpi / 160f);
-        return px;
-    }
-
-    private class customListHolder{
+     private class customListHolder{
         public ImageView imgV;
         public TextView nom;
         public TextView prenom;

@@ -1,10 +1,12 @@
 package iut.lp2017.acpi.photos;
 
+import android.util.Log;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.OnScaleGestureListener;
+import android.view.View;
 
 /**
  * Created by Marek on 24/01/2017.
@@ -36,6 +38,7 @@ public class GestControl implements OnGestureListener,OnScaleGestureListener,OnD
 
     @Override
     public boolean onScale(ScaleGestureDetector detector) {
+
         return false;
     }
 
@@ -66,7 +69,12 @@ public class GestControl implements OnGestureListener,OnScaleGestureListener,OnD
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        return false;
+        float coefDistance = 0.1f;
+        final float dist_dX = coefDistance*distanceX;
+        final float dist_dY = coefDistance*distanceY;
+
+        view.animateMove(distanceX, distanceY);
+        return true;
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import iut.lp2017.acpi.R;
+import iut.lp2017.acpi.utilitaires.BitmapScaler;
 
 /**
  * Created by necesanym on 18/01/17.
@@ -65,7 +66,7 @@ public class PhotosLayout extends RelativeLayout {
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT
         );
-        diagNomParams.addRule(RelativeLayout.RIGHT_OF,diagImage.getId());
+        diagNomParams.addRule(RelativeLayout.RIGHT_OF, diagImage.getId());
         diagNom.setTextAppearance(getContext(), android.R.style.TextAppearance_Large);
         diagNom.setLayoutParams(diagNomParams);
 
@@ -112,9 +113,8 @@ public class PhotosLayout extends RelativeLayout {
         dismissButton.setLayoutParams(dialogButtonParams);
 
 
-        Bitmap img = model.getImageBitmap();
-        int imgDims = 100;
-        diagImage.setImageBitmap(Bitmap.createScaledBitmap(img, (int)dpToPx(imgDims,getContext()), (int)dpToPx(imgDims,getContext()), false));
+        Bitmap img = BitmapScaler.scaleToFitWidth(model.getImageBitmap(),(int)BitmapScaler.dpToPx(100,getContext()));
+        diagImage.setImageBitmap(img);
         diagNom.setText(model.getNom());
         diagPrenom.setText(model.getPrenom());
         diagSize.setText(Double.toString(model.getTaille()));

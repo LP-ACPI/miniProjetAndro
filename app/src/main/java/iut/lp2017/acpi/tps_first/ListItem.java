@@ -24,9 +24,9 @@ public class ListItem {
 
     public ListItem(Context context, String nom, String prenom) {
         try {
-            String imgs[] = {"chats-web.png","gg.jpeg","images.jpeg", "imagesdf.jpeg"};
+            String imgs[] = {"chats-web.png","gg.jpeg","images.jpeg", "imagesdf.jpeg", "test.jpg"};
             Random r = new Random();
-            int ixImg = r.nextInt(4);
+            int ixImg = r.nextInt(5);
             this.imageSource = imgs[ixImg];
             InputStream stream = context.getAssets().open(imageSource);
             this.imageBitmap = BitmapFactory.decodeStream(stream);
