@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import iut.lp2017.acpi.R;
-import iut.lp2017.acpi.photos.PhotoModel;
-import iut.lp2017.acpi.photos.PhotosController;
-import iut.lp2017.acpi.photos.PhotosLayout;
+import iut.lp2017.acpi.photos.models.PhotoModel;
+import iut.lp2017.acpi.photos.controllers.PhotosController;
+import iut.lp2017.acpi.photos.views.PhotosLayout;
 
 /**
  * Created by necesanym on 04/01/17.

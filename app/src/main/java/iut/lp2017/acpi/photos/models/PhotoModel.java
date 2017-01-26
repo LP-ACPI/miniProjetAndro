@@ -1,4 +1,4 @@
-package iut.lp2017.acpi.photos;
+package iut.lp2017.acpi.photos.models;
 
 import android.content.Context;
 

@@ -1,7 +1,9 @@
-package iut.lp2017.acpi.photos;
+package iut.lp2017.acpi.photos.controllers;
 
 import android.content.Context;
 import android.content.Intent;
+
+import iut.lp2017.acpi.photos.FullScreenPhotoActivity;
 
 /**
  * Created by necesanym on 18/01/17.
@@ -12,21 +14,24 @@ public class PhotosController {
 
     private static PhotosController instance;
 
-    public PhotosController() {}
+    public PhotosController() {
+    }
 
     public static PhotosController getInstance() {
-        if(instance == null)
+        if (instance == null)
             instance = new PhotosController();
         return instance;
     }
 
-    public void showFullScreen(Context previousActivity,String nomImage){
+    public void showFullScreen(Context previousActivity, String nomImage) {
         Intent fullScreenIntent = new Intent(previousActivity, FullScreenPhotoActivity.class);
 
         fullScreenIntent.putExtra(PHOTO_NAME_LABEL, nomImage);
 
         previousActivity.startActivity(fullScreenIntent);
-
     }
-
 }
+
+
+
+

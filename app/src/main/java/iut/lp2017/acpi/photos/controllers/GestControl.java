@@ -1,10 +1,13 @@
-package iut.lp2017.acpi.photos;
+package iut.lp2017.acpi.photos.controllers;
 
+import android.util.Log;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.OnScaleGestureListener;
+
+import iut.lp2017.acpi.photos.views.FullScreenView;
 
 /**
  * Created by Marek on 24/01/2017.
@@ -82,11 +85,14 @@ public class GestControl implements OnGestureListener,OnScaleGestureListener,OnD
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-//        final float coefTemps = 0.4f;
-//        final float dx = (coefTemps * velocityX / 2);
-//        final float dy = (coefTemps * velocityY / 2);
+        //TODO : animation
+        final float coefTemps = 0.4f;
+        final float dx = (coefTemps * velocityX / 2);
+        final float dy = (coefTemps * velocityY / 2);
 //
 //        view.animateFlingMove(-dx,-dy);
+        Log.i("Fling X", String.valueOf(dx));
+        Log.i("Fling Y", String.valueOf(dy));
         return false;
     }
 }

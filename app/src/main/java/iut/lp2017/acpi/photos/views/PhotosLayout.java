@@ -1,16 +1,15 @@
-package iut.lp2017.acpi.photos;
+package iut.lp2017.acpi.photos.views;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import iut.lp2017.acpi.R;
+import iut.lp2017.acpi.photos.models.PhotoModel;
 import iut.lp2017.acpi.utilitaires.BitmapScaler;
 
 /**
@@ -25,6 +24,7 @@ public class PhotosLayout extends RelativeLayout {
     public PhotosLayout(Context context) {
         super(context);
     }
+
     public PhotosLayout(Context context,PhotoModel model) {
         super(context);
         initDialogView(model);
@@ -38,6 +38,22 @@ public class PhotosLayout extends RelativeLayout {
     public PhotosLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initDialogView(model);
+    }
+
+    public Button getDismissButton(){
+        return dismissButton;
+    }
+
+    public PhotoModel getModel() {
+        return model;
+    }
+
+    public void setModel(PhotoModel model) {
+        this.model = model;
+    }
+
+    public Button getFullScreenButton() {
+        return fullScreenButton;
     }
 
     private void initDialogView(PhotoModel model){
@@ -125,35 +141,5 @@ public class PhotosLayout extends RelativeLayout {
         addView(diagSize);
         addView(dismissButton);
         addView(fullScreenButton);
-    }
-
-
-    private void initFullScreenView(String imageSource){}
-
-
-
-    public Button getDismissButton(){
-        return dismissButton;
-    }
-
-
-    public PhotoModel getModel() {
-        return model;
-    }
-
-    public void setModel(PhotoModel model) {
-        this.model = model;
-    }
-
-    public Button getFullScreenButton() {
-        return fullScreenButton;
-    }
-
-    public static float dpToPx(float dp, Context context)
-    {
-        Resources resources = context.getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        float px = dp * (metrics.densityDpi / 160f);
-        return px;
     }
 }

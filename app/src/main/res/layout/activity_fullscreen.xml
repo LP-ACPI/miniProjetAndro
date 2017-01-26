@@ -2,8 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <iut.lp2017.acpi.photos.FullScreenView
+    android:layout_height="match_parent"
+    android:background="@color/colorBlack">
+    <iut.lp2017.acpi.photos.views.FullScreenView
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:id="@+id/fullscreenview"/>
