@@ -1,4 +1,4 @@
-package iut.lp2017.acpi.photos.daohandlers;
+package iut.lp2017.acpi.imageproject.daohandlers;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -10,12 +10,14 @@ import org.xml.sax.XMLReader;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import iut.lp2017.acpi.photos.models.ImageModel;
-import iut.lp2017.acpi.photos.views.I_Async;
+import iut.lp2017.acpi.imageproject.models.ImageModel;
+import iut.lp2017.acpi.imageproject.views.I_Async;
 
 /**
  * Created by Marek on 26/01/2017.
@@ -27,13 +29,18 @@ public class AsyncXMLsaxParser extends AsyncTask<String, Void, String>
     private static Context context;
     private Exception exception;
     HttpURLConnection httpConnection;
+    private List<ImageModel> listImages;
+    private List<String> listCategories;
 
     public AsyncXMLsaxParser(Context context){
         this.context = context;
     }
 
     @Override
-    protected void onPreExecute() {
+    protected void onPreExecute()
+    {
+        listImages = new ArrayList<ImageModel>();
+        listCategories = new ArrayList<String>();
         delegate.asyncProcessBegan();
     }
 
@@ -62,6 +69,8 @@ public class AsyncXMLsaxParser extends AsyncTask<String, Void, String>
                  *      - Sortir la liste ci-dessous dans une ListView adaptée pour ImageModel, et dans une nouvelle activité
                  *      - gestion de catégories d'images (une activité qui les liste) -> trier ou pas images par catégorie(s)
                  */
+                listImages = imgHandler.getImgList();
+                listCategories = imgHandler.getDistinctCategories();
                 for(ImageModel i: imgHandler.getImgList())
                     Log.i("Image",i.toString());
                 for(String category: imgHandler.getDistinctCategories())
@@ -94,6 +103,24 @@ public class AsyncXMLsaxParser extends AsyncTask<String, Void, String>
     public void delegateViewEventsTo(I_Async async)
     {
         delegate = async;
+    }
+
+    /**
+     * to call in PostExecute
+     * @return
+     */
+    public List<ImageModel> getReachedImages()
+    {
+        return listImages;
+    }
+
+    /**
+     * to call in PostExecute
+     * @return
+     */
+    public List<String> getReachedDistinctCategories()
+    {
+        return listCategories;
     }
 }
 

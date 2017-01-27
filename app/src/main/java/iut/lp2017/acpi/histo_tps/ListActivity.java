@@ -1,4 +1,4 @@
-package iut.lp2017.acpi.tps_first;
+package iut.lp2017.acpi.histo_tps;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -15,9 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import iut.lp2017.acpi.R;
-import iut.lp2017.acpi.photos.models.PhotoModel;
-import iut.lp2017.acpi.photos.controllers.PhotosController;
-import iut.lp2017.acpi.photos.views.PhotosLayout;
+import iut.lp2017.acpi.imageproject.controllers.ImageController;
 
 /**
  * Created by necesanym on 04/01/17.
@@ -147,7 +145,7 @@ public class ListActivity extends Activity {
         diagLayout.getFullScreenButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PhotosController.getInstance().showFullScreen(context, li.getImageSource());
+                ImageController.getInstance().showFullScreen(context, li.getImageSource(),li.getNom());
             }
         });
 

@@ -1,9 +1,7 @@
-package iut.lp2017.acpi.tps_first;
+package iut.lp2017.acpi.histo_tps;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

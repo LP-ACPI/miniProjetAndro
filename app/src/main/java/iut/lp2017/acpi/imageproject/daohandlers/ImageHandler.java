@@ -1,4 +1,4 @@
-package iut.lp2017.acpi.photos.daohandlers;
+package iut.lp2017.acpi.imageproject.daohandlers;
 
 import android.content.Context;
 
@@ -9,7 +9,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-import iut.lp2017.acpi.photos.models.ImageModel;
+import iut.lp2017.acpi.imageproject.models.ImageModel;
 
 /**
  * Created by Marek on 26/01/2017.

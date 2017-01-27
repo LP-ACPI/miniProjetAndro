@@ -1,4 +1,4 @@
-package iut.lp2017.acpi.photos.controllers;
+package iut.lp2017.acpi.imageproject.controllers;
 
 import android.util.Log;
 import android.view.GestureDetector.OnDoubleTapListener;
@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.OnScaleGestureListener;
 
-import iut.lp2017.acpi.photos.views.FullScreenView;
+import iut.lp2017.acpi.imageproject.views.FullScreenView;
 
 /**
  * Created by Marek on 24/01/2017.

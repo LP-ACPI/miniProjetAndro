@@ -1,4 +1,4 @@
-package iut.lp2017.acpi.photos.views;
+package iut.lp2017.acpi.imageproject.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,7 +12,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
-import iut.lp2017.acpi.photos.controllers.GestControl;
+import iut.lp2017.acpi.imageproject.controllers.GestControl;
 import iut.lp2017.acpi.utilitaires.BitmapScaler;
 
 /**
@@ -50,16 +50,12 @@ public class FullScreenView extends View {
         initGests();
     }
 
-    public void initImg(){
-        _IMGmatrix = new Matrix();
-    }
-
     @Override
     protected void onDraw(Canvas canvas)
     {
-
         if(!initialised)
         {
+            _IMGmatrix = new Matrix();
             widthView = getMeasuredWidth();
             heightView = getMeasuredHeight();
             _IMGposX = widthView/2 - _BMPimage.getWidth()/2;
@@ -81,10 +77,10 @@ public class FullScreenView extends View {
     public void set_BMPimage(Bitmap BMPimage)
     {
         this._BMPimage = BMPimage;
-        initImg();
     }
 
-    public void set_IMGName(String _IMGName) {
+    public void set_IMGName(String _IMGName)
+    {
         this._IMGName = _IMGName;
     }
 
@@ -106,7 +102,8 @@ public class FullScreenView extends View {
         _scaleGestDetector = new ScaleGestureDetector(getContext(),_gestControl);
     }
 
-    public void animateMove(float dx, float dy){
+    public void animateMove(float dx, float dy)
+    {
         //TODO : revoir les limites de positionnement & màj position
         float currentX = _IMGposX - dx;
         float currentY = _IMGposY - dy;
@@ -128,11 +125,12 @@ public class FullScreenView extends View {
         invalidate();
     }
 
-    public void animateScale(float coefZoom){
+    public void animateScale(float coefZoom)
+    {
         //TODO : à revoir - décalage en position x,y
-        float tx = (widthView  - _BMPimage.getWidth()/2) * coefZoom;
-        float ty = (heightView - _BMPimage.getHeight()/2) * coefZoom;
-        _IMGmatrix.postScale(coefZoom, coefZoom, tx, ty);
+        float dx = (widthView  - _BMPimage.getWidth()/2) * coefZoom;
+        float dy = (heightView - _BMPimage.getHeight()/2) * coefZoom;
+        _IMGmatrix.postScale(coefZoom, coefZoom, dx, dy);
         invalidate();
     }
 
@@ -141,7 +139,7 @@ public class FullScreenView extends View {
         //TODO : actuellement buggué
 //        int newWidth = _BMPimage.getWidth() * (int)coefZoom;
 //        int newHeight = _BMPimage.getHeight() * (int)coefZoom;
-//        _BMPimage = BitmapScaler.scaleToFill(_BMPimage,newWidth,newHeight);
+//        _BMPimage = BitmapScaler.strechToFill(_BMPimage,newWidth,newHeight);
     }
 
     public void animateFlingMove(float dx, float dy, long velocity)

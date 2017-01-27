@@ -1,4 +1,4 @@
-package iut.lp2017.acpi.photos.views;
+package iut.lp2017.acpi.histo_tps;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,7 +9,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import iut.lp2017.acpi.R;
-import iut.lp2017.acpi.photos.models.PhotoModel;
 import iut.lp2017.acpi.utilitaires.BitmapScaler;
 
 /**

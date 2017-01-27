@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="iut.lp2017.acpi.tps_first.MainActivity"
+            android:name="iut.lp2017.acpi.imageproject.ListImagesActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,15 +17,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="iut.lp2017.acpi.tps_first.SecondActivity"
+            android:name="iut.lp2017.acpi.histo_tps.SecondActivity"
             android:label="@string/TP_1" >
         </activity>
         <activity
-            android:name="iut.lp2017.acpi.tps_first.ListActivity"
+            android:name="iut.lp2017.acpi.histo_tps.ListActivity"
             android:label="@string/TP_2" >
         </activity>
         <activity
-            android:name="iut.lp2017.acpi.photos.FullScreenPhotoActivity"
+            android:name="iut.lp2017.acpi.imageproject.FullScreenPhotoActivity"
             android:label="@string/TP_2" >
         </activity>
     </application>

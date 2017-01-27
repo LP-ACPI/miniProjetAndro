@@ -1,8 +1,6 @@
-package iut.lp2017.acpi.photos.models;
+package iut.lp2017.acpi.histo_tps;
 
 import android.content.Context;
-
-import iut.lp2017.acpi.tps_first.ListItem;
 
 /**
  * Created by necesanym on 18/01/17.

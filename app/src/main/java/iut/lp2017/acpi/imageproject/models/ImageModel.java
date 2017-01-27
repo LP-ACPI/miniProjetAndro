@@ -1,4 +1,4 @@
-package iut.lp2017.acpi.photos.models;
+package iut.lp2017.acpi.imageproject.models;
 
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -27,9 +27,9 @@ public class ImageModel {
     private String description;
     private String urlLink;
     private String localpath;
-    private Context context;
     protected double taille;
     protected List<String> categories;
+    private static Context context;
 
     public ImageModel()
     {
@@ -103,6 +103,8 @@ public class ImageModel {
         return localpath;
     }
 
+    public void setLocalpath(String localpath) { this.localpath = localpath; }
+
     public Context getContext() {
         return context;
     }
@@ -114,6 +116,8 @@ public class ImageModel {
     public List<String> getCategories() {
         return categories;
     }
+
+    public void setCategories(List<String> categories) { this.categories = categories; }
 
     public void addCategorie(String categorie) {
         this.categories.add(categorie);
@@ -148,6 +152,7 @@ public class ImageModel {
         {
             File f = new File(localpath);
             imageBitmap = BitmapFactory.decodeStream(new FileInputStream(f));
+            taille = imageBitmap.getRowBytes();
         }
         catch (FileNotFoundException e)
         {
@@ -159,12 +164,13 @@ public class ImageModel {
     {
         try
         {
-            URL url = new URL(this.urlLink);
+            URL url = new URL(urlLink);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoInput(true);
             connection.connect();
             InputStream input = connection.getInputStream();
             imageBitmap = BitmapFactory.decodeStream(input);
+            taille = imageBitmap.getRowBytes();
         }
         catch (IOException e)
         {
@@ -172,28 +178,16 @@ public class ImageModel {
         }
     }
 
-    @Override
-    public String toString()
+    private void updateLocalpath()
     {
-        String cats = ", catégories: [";
-        for(String categ : categories)
-            cats+= categ + ", ";
-        cats = cats.substring(0,cats.length()-2) + "]";
-
-        return "ImageModel{" +
-                "id=" + id +
-                ", nom='" + nom + '\'' +
-                ", description='" + description + '\'' +
-                ", link='" + urlLink + '\'' +
-                ", localPath='"+ localpath + '\'' +
-                cats + '}';
+        localpath = getLocalSaveDirectory() + '/' + nom;
     }
 
-    private void updateLocalpath()
+    private static String getLocalSaveDirectory()
     {
         ContextWrapper cw = new ContextWrapper(context);
         File directory = cw.getDir("miniProjAndro", Context.MODE_PRIVATE);
-        localpath = directory.getAbsolutePath() + '/' + nom;
+        return directory.getAbsolutePath();
     }
 
     private boolean imageExistsLocally()
@@ -207,7 +201,7 @@ public class ImageModel {
         try {
             File img_path = new File(localpath);
             fos = new FileOutputStream(img_path);
-            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -222,4 +216,20 @@ public class ImageModel {
         return true;
     }
 
+    @Override
+    public String toString()
+    {
+        String cats = ", catégories :[";
+        for(String categ : categories)
+            cats += categ + ", ";
+        cats = cats.substring(0,cats.length()-2) + "]";
+
+        return "ImageModel{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", description='" + description + '\'' +
+                ", link='" + urlLink + '\'' +
+                ", localPath='"+ localpath + '\'' +
+                cats + '}';
+    }
 }

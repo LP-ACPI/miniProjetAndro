@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBlack">
-    <iut.lp2017.acpi.photos.views.FullScreenView
+    <iut.lp2017.acpi.imageproject.views.FullScreenView
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:id="@+id/fullscreenview"/>

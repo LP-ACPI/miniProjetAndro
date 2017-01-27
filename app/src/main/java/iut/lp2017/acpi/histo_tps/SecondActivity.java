@@ -1,4 +1,4 @@
-package iut.lp2017.acpi.tps_first;
+package iut.lp2017.acpi.histo_tps;
 
 import android.app.Activity;
 import android.content.Intent;
