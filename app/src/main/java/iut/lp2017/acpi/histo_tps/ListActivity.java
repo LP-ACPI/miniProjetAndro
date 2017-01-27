@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -38,13 +37,13 @@ public class ListActivity extends Activity {
         initInstance();
         initListsItemDialog(tpListView);
 
-        Button resetButton = (Button) findViewById(R.id.resetButton);
-        resetButton.setOnClickListener(new View.OnClickListener() {
+//        Button resetButton = (Button) findViewById(R.id.resetButton);
+/*        resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 reset();
             }
-        });
+//        });*/
 
     }
 

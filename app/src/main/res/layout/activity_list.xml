@@ -3,18 +3,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <Button
-        android:id="@+id/resetButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/resetList"
-        android:layout_alignParentBottom="true"/>
-
     <ListView
         android:id="@+id/tpListView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@id/resetButton"/>
+        android:layout_height="fill_parent"/>
 
 
 </RelativeLayout>

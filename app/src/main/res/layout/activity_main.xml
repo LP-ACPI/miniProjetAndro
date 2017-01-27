@@ -40,7 +40,9 @@
             android:id="@+id/name"
             android:text="@string/name"
             android:layout_alignBaseline="@id/inputName"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:layout_toLeftOf="@+id/inputName"
+            android:layout_toStartOf="@+id/inputName" />
 
         <EditText
             android:layout_marginTop="10dp"
@@ -59,7 +61,9 @@
             android:id="@+id/firstName"
             android:text="@string/firstName"
             android:layout_alignBaseline="@id/inputFirstName"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:layout_toLeftOf="@+id/inputFirstName"
+            android:layout_toStartOf="@+id/inputFirstName" />
 
         <Button
             android:layout_marginTop="25dp"

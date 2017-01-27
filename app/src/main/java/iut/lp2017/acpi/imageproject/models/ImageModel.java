@@ -230,6 +230,14 @@ public class ImageModel {
                 ", description='" + description + '\'' +
                 ", link='" + urlLink + '\'' +
                 ", localPath='"+ localpath + '\'' +
-                cats + '}';
+                ", catégories: [" + getCategoriesStringified() + "]}";
+    }
+
+    public String getCategoriesStringified()
+    {
+        String categs = "";
+        for(String categ : categories)
+            categs += categ + ", ";
+        return categs.length() > 0 ? categs.substring(0,categs.length()-2) : "";
     }
 }

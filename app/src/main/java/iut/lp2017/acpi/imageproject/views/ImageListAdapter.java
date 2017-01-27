@@ -48,7 +48,7 @@ public class ImageListAdapter extends ArrayAdapter<ImageModel> {
 
         viewHolder.nom.setText(item.getNom());
         viewHolder.description.setText(item.getDescription());
-        Bitmap img = BitmapScaler.scaleToFill(item.getImageBitmap(), (int)BitmapScaler.dpToPx(80,context),(int)BitmapScaler.dpToPx(80,context));
+        Bitmap img = BitmapScaler.scaleToFill(item.getImageBitmap(), (int)BitmapScaler.dpToPx(60,context),(int)BitmapScaler.dpToPx(80,context));
         viewHolder.imgV.setImageBitmap(img);
         viewHolder.size.setText(Double.toString(item.getTaille()));
 

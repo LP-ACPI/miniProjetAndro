@@ -1,15 +1,15 @@
 package iut.lp2017.acpi.imageproject;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import java.util.List;
 
@@ -18,7 +18,6 @@ import iut.lp2017.acpi.imageproject.controllers.ImageController;
 import iut.lp2017.acpi.imageproject.daohandlers.AsyncXMLsaxParser;
 import iut.lp2017.acpi.imageproject.models.ImageModel;
 import iut.lp2017.acpi.imageproject.views.I_Async;
-import iut.lp2017.acpi.imageproject.views.ImageDialogLayout;
 import iut.lp2017.acpi.imageproject.views.ImageListAdapter;
 
 /**
@@ -35,9 +34,6 @@ public class ListImagesActivity extends Activity implements I_Async {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /**
-         *  TODO : implementation+délégation de I_Async+ses méthodes -> dans l'activité qui va lister les images (catégories plus tard)
-         */
         AXSP = new AsyncXMLsaxParser(this);
         AXSP.delegateViewEventsTo(this);
         AXSP.execute("http://public.ave-comics.com/gabriel/iut/images.xml");
@@ -53,7 +49,7 @@ public class ListImagesActivity extends Activity implements I_Async {
     public void asyncProcessBegan()
     {
         downloadProgress = new ProgressDialog(this);
-        downloadProgress.setMessage("téléchargement d'images");
+        downloadProgress.setMessage("téléchargement d'images...");
         downloadProgress.show();
     }
 
@@ -64,18 +60,17 @@ public class ListImagesActivity extends Activity implements I_Async {
         {
             if (!downloadProgress.isShowing())
                 downloadProgress.show();
-            downloadProgress.setMessage("téléchargement terminé!\nVoir résultats dans logCat");
+            downloadProgress.setMessage("téléchargement terminé!");
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     downloadProgress.dismiss();
                     initList(AXSP.getReachedImages());
                 }
-            }, 2000);
+            }, 1500);
         }
     }
 
     private void initList(List<ImageModel> imageList){
-
         final ImageListAdapter listAdapter = new ImageListAdapter(this, imageList);
         tpListView.setAdapter(listAdapter);
     }
@@ -86,34 +81,30 @@ public class ListImagesActivity extends Activity implements I_Async {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
 
-                final Dialog dialog = new Dialog(context);
                 ImageModel iM = (ImageModel) parent.getAdapter().getItem(position);
-                dialog.setContentView(initDialogView(dialog, iM));
-                dialog.show();
+                ImageController.getInstance().showSelectedImageDialog(context,iM);
+
             }
         });
 
     }
 
-    private RelativeLayout initDialogView(final Dialog diag, final ImageModel iM){
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
-        diag.setTitle("image n°" + iM.getId() + " " + iM.getNom());
-        ImageDialogLayout diagLayout = new ImageDialogLayout(context , iM);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
-        diagLayout.getDismissButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                diag.dismiss();
-            }
-        });
+        if (id == R.id.action_categories) {
+            ImageController.getInstance().showCatogoryListDialog(context,AXSP.getReachedDistinctCategories());
+            return true;
+        }
 
-        diagLayout.getFullScreenButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ImageController.getInstance().showFullScreen(context, iM.getLocalpath(),iM.getNom());
-            }
-        });
-
-        return diagLayout;
+        return super.onOptionsItemSelected(item);
     }
 }

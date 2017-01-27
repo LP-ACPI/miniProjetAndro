@@ -16,27 +16,27 @@ import iut.lp2017.acpi.utilitaires.BitmapScaler;
  * Created by Marek on 27/01/2017.
  */
 
-public class ImageDialogLayout extends RelativeLayout
+public class DialogImageLayout extends RelativeLayout
 {
     private Button dismissButton;
     private Button fullScreenButton;
     private ImageModel model;
 
-    public ImageDialogLayout(Context context) {
+    public DialogImageLayout(Context context) {
         super(context);
     }
 
-    public ImageDialogLayout(Context context,ImageModel model) {
+    public DialogImageLayout(Context context, ImageModel model) {
         super(context);
         initDialogView(model);
     }
 
-    public ImageDialogLayout(Context context, AttributeSet attrs) {
+    public DialogImageLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         initDialogView(model);
     }
 
-    public ImageDialogLayout(Context context, AttributeSet attrs, int defStyle) {
+    public DialogImageLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initDialogView(model);
     }
@@ -108,6 +108,18 @@ public class ImageDialogLayout extends RelativeLayout
         diagSizeParams.addRule(RelativeLayout.BELOW, diagDescription.getId());
         diagSize.setLayoutParams(diagSizeParams);
 
+        TextView diagCategories = new TextView(getContext());
+        diagCategories.setId(ids++);
+        RelativeLayout.LayoutParams diagCatsParams = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+        );
+        diagCatsParams.addRule(RelativeLayout.BELOW, diagImage.getId());
+        diagCatsParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        diagCategories.setLayoutParams(diagCatsParams);
+        diagCategories.setTextAppearance(getContext(), android.R.style.TextAppearance_DeviceDefault_Medium);
+        diagCategories.setPadding(0, 20, 0, 20);
+
         fullScreenButton = new Button(getContext());
         fullScreenButton.setId(ids++);
         RelativeLayout.LayoutParams fulscreenButtonParams = new RelativeLayout.LayoutParams(
@@ -115,7 +127,7 @@ public class ImageDialogLayout extends RelativeLayout
                 RelativeLayout.LayoutParams.WRAP_CONTENT
         );
         fulscreenButtonParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        fulscreenButtonParams.addRule(RelativeLayout.BELOW, diagImage.getId());
+        fulscreenButtonParams.addRule(RelativeLayout.BELOW, diagCategories.getId());
         fullScreenButton.setText(getContext().getString(R.string.fullScreen));
         fullScreenButton.setLayoutParams(fulscreenButtonParams);
 
@@ -130,16 +142,17 @@ public class ImageDialogLayout extends RelativeLayout
         dismissButton.setLayoutParams(dialogButtonParams);
 
 
-        Bitmap img = BitmapScaler.scaleToFitWidth(model.getImageBitmap(),(int)BitmapScaler.dpToPx(100,getContext()));
+        Bitmap img = BitmapScaler.scaleToFitWidth(model.getImageBitmap(),(int)BitmapScaler.dpToPx(125,getContext()));
         diagImage.setImageBitmap(img);
         diagNom.setText(model.getNom());
         diagDescription.setText(model.getDescription());
         diagSize.setText(Double.toString(model.getTaille()));
+        diagCategories.setText("Categories: " + model.getCategoriesStringified());
 
         addView(diagImage);
         addView(diagNom);
         addView(diagDescription);
-        addView(diagSize);
+        addView(diagCategories);
         addView(dismissButton);
         addView(fullScreenButton);
     }

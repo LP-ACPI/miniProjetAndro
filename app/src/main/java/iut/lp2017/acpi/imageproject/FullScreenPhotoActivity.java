@@ -10,9 +10,6 @@ import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import iut.lp2017.acpi.R;
 import iut.lp2017.acpi.imageproject.views.FullScreenView;
 import iut.lp2017.acpi.utilitaires.BitmapScaler;
@@ -41,17 +38,10 @@ public class FullScreenPhotoActivity extends Activity
         FullScreenView fsView = (FullScreenView) findViewById(R.id.fullscreenview);
         fsView.set_IMGName(imageName);
 
-        Bitmap bmp = null;
-        try {
-            InputStream stream = getAssets().open(imageSource);
-            bmp = BitmapFactory.decodeStream(stream);
-        } catch (IOException e) {
-            e.printStackTrace();
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            bmp = BitmapFactory.decodeFile(imageSource, options);
-        }
-        
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        Bitmap bmp = BitmapFactory.decodeFile(imageSource, options);
+
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         boolean isPortrait = Configuration.ORIENTATION_PORTRAIT == getResources().getConfiguration().orientation;

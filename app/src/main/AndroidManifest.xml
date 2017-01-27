@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          
     package="iut.lp2017.acpi"
     >
     <uses-permission android:name="android.permission.INTERNET"/>
-    <application android:allowBackup="true"
+    <application
+        android:allowBackup="true"
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
@@ -26,7 +26,7 @@
         </activity>
         <activity
             android:name="iut.lp2017.acpi.imageproject.FullScreenPhotoActivity"
-            android:label="@string/TP_2" >
+            android:label="@string/TP_3" >
         </activity>
     </application>
 
