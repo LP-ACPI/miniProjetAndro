@@ -12,7 +12,7 @@ import java.util.List;
 import iut.lp2017.acpi.imageproject.models.ImageModel;
 
 /**
- * Created by Marek on 26/01/2017.
+ * Created on 26/01/2017.
  */
 
 public class ImageHandler extends DefaultHandler
@@ -107,6 +107,5 @@ public class ImageHandler extends DefaultHandler
             descriptTag = false;
         }
     }
-
 }
 

@@ -3,34 +3,34 @@ package iut.lp2017.acpi.imageproject.views;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 
 import iut.lp2017.acpi.imageproject.controllers.GestControl;
 import iut.lp2017.acpi.utilitaires.BitmapScaler;
 
 /**
- * Created by Marek on 24/01/2017.
+ * Created on 24/01/2017.
  */
 
 public class FullScreenView extends View {
     private Bitmap _BMPimage;
-    private String _IMGName;
     private Matrix _IMGmatrix;
-    private int heightView;
-    private int widthView;
+    private int _viewHeightV;
+    private int _viewWidth;
 
     private GestureDetector _gestureDetector;
     private ScaleGestureDetector _scaleGestDetector;
     private int _IMGposX;
     private int _IMGposY;
-    private boolean initialised = false;;
+    private boolean initialised = false;
 
     public FullScreenView(Context context)
     {
@@ -56,32 +56,19 @@ public class FullScreenView extends View {
         if(!initialised)
         {
             _IMGmatrix = new Matrix();
-            widthView = getMeasuredWidth();
-            heightView = getMeasuredHeight();
-            _IMGposX = widthView/2 - _BMPimage.getWidth()/2;
-            _IMGposY = heightView/2 - _BMPimage.getHeight()/2;
+            _viewWidth = getMeasuredWidth();
+            _viewHeightV = getMeasuredHeight();
+            _IMGposX = _viewWidth /2 - _BMPimage.getWidth()/2;
+            _IMGposY = _viewHeightV /2 - _BMPimage.getHeight()/2;
             _IMGmatrix.setTranslate(_IMGposX, _IMGposY);
             initialised = true;
         }
-        Paint mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mTextPaint.setColor(Color.WHITE);
-        mTextPaint.setTextSize(BitmapScaler.dpToPx(20, getContext()));
-
-        float textWidth = mTextPaint.measureText(_IMGName);
-        float textBottomPadding = BitmapScaler.dpToPx(30, getContext());
-
         canvas.drawBitmap(_BMPimage, _IMGmatrix, null);
-        canvas.drawText(_IMGName, widthView/2 - textWidth/2, heightView - textBottomPadding, mTextPaint);
     }
 
     public void set_BMPimage(Bitmap BMPimage)
     {
         this._BMPimage = BMPimage;
-    }
-
-    public void set_IMGName(String _IMGName)
-    {
-        this._IMGName = _IMGName;
     }
 
     @Override
@@ -105,12 +92,13 @@ public class FullScreenView extends View {
     public void animateMove(float dx, float dy)
     {
         //TODO : revoir les limites de positionnement & màj position
-        float currentX = _IMGposX - dx;
+/*      float currentX = _IMGposX - dx;
         float currentY = _IMGposY - dy;
-        boolean gaucheDansCadre = currentX >= -_BMPimage.getWidth()/2;
-        boolean droiteDansCadre = currentX <= widthView -_BMPimage.getWidth()/2;
-        boolean hautDansCadre   = currentY >= -_BMPimage.getHeight()/2;
-        boolean basDansCadre    = currentY <= heightView -_BMPimage.getHeight()/2;
+        int dpOffset = (int)BitmapScaler.dpToPx(25,getContext());
+        boolean gaucheDansCadre = currentX > -_BMPimage.getWidth()+dpOffset;
+        boolean droiteDansCadre = currentX < _viewWidth - dpOffset;
+        boolean hautDansCadre   = currentY > -_BMPimage.getHeight()+dpOffset;
+        boolean basDansCadre    = currentY < _viewHeightV - dpOffset;
 
         if(!gaucheDansCadre || !droiteDansCadre)
             dx = 0;
@@ -119,35 +107,58 @@ public class FullScreenView extends View {
         if(!hautDansCadre || !basDansCadre)
             dy = 0;
         else _IMGposY -= dy;
-
+*/
+        _IMGposX -= dx;
+        _IMGposY -= dy;
         _IMGmatrix.postTranslate(-dx, -dy);
+        //au lieu de 'invalidate()' -> évite le clipping de draw+animation dans animateFlingMove
+        postInvalidateDelayed(0);
+    }
 
+    public void animateScale(float pivotX,float pivotY,float coefZoom)
+    {
+        _IMGmatrix.postScale(coefZoom,coefZoom,pivotX,pivotY);
         invalidate();
     }
 
-    public void animateScale(float coefZoom)
+    public void updateImageAfterScale(float coefZoom)
     {
-        //TODO : à revoir - décalage en position x,y
-        float dx = (widthView  - _BMPimage.getWidth()/2) * coefZoom;
-        float dy = (heightView - _BMPimage.getHeight()/2) * coefZoom;
-        _IMGmatrix.postScale(coefZoom, coefZoom, dx, dy);
-        invalidate();
+        float newWidth = _BMPimage.getWidth()*coefZoom;
+        float newHeight = _BMPimage.getHeight()*coefZoom;
+        _IMGposX -= _IMGposX*coefZoom;
+        _IMGposY -= _IMGposY*coefZoom;
+        set_BMPimage(Bitmap.createScaledBitmap(_BMPimage,(int)newWidth,(int)newHeight, false));
     }
 
-    public void updateImgAfterScale(float coefZoom)
+    public void animateFlingMove(final float endFlingX,final float endFlingY)
     {
-        //TODO : actuellement buggué
-//        int newWidth = _BMPimage.getWidth() * (int)coefZoom;
-//        int newHeight = _BMPimage.getHeight() * (int)coefZoom;
-//        _BMPimage = BitmapScaler.strechToFill(_BMPimage,newWidth,newHeight);
+        //TODO: pb - image découpée si précédemment en dehors de l'écran -> image en entier
+        Animation.AnimationListener aL = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+            @Override
+            public void onAnimationEnd(Animation animation)
+            {
+                animateMove(-endFlingX, -endFlingY);
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        };
+
+        Animation translate = new TranslateAnimation(0,endFlingX,0,endFlingY);
+        translate.setDuration(500);
+        translate.setInterpolator(new LinearOutSlowInInterpolator());
+        translate.setAnimationListener(aL);
+        startAnimation(translate);
     }
 
-    public void animateFlingMove(float dx, float dy, long velocity)
+    public void intialiseView(boolean fitImageToWidth)
     {
-        //TODO : animation
-
-        _IMGmatrix.postTranslate(-dx, -dy);
-
+        if(fitImageToWidth)
+            set_BMPimage(BitmapScaler.scaleToFitWidth(_BMPimage, _viewWidth));
+        else
+            set_BMPimage(BitmapScaler.scaleToFitHeight(_BMPimage, _viewHeightV));
+        initialised = false;
         invalidate();
     }
 }

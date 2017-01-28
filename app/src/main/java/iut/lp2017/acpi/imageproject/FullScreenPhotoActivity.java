@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import iut.lp2017.acpi.R;
 import iut.lp2017.acpi.imageproject.views.FullScreenView;
@@ -36,7 +37,8 @@ public class FullScreenPhotoActivity extends Activity
 
         setContentView(R.layout.activity_fullscreen);
         FullScreenView fsView = (FullScreenView) findViewById(R.id.fullscreenview);
-        fsView.set_IMGName(imageName);
+        TextView tv = (TextView) findViewById(R.id.imageName);
+        tv.setText(imageName);
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;

@@ -31,7 +31,6 @@ public class ImageListAdapter extends ArrayAdapter<ImageModel>
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-
         if(convertView == null)
         {
             convertView = LayoutInflater.from(context).inflate(R.layout.image_list_item,parent,false);

@@ -18,7 +18,7 @@ import iut.lp2017.acpi.imageproject.views.DialogCategoriesLayout;
 import iut.lp2017.acpi.imageproject.views.DialogImageLayout;
 
 /**
- * Created by necesanym on 18/01/17.
+ * Created on 18/01/17.
  */
 public class ImageController {
 
@@ -30,13 +30,15 @@ public class ImageController {
 
     public ImageController() {}
 
-    public static ImageController getInstance() {
+    public static ImageController getInstance()
+    {
         if (instance == null)
             instance = new ImageController();
         return instance;
     }
 
-    public void showFullScreen(Context previousActivity, String pathImage,String nameImage) {
+    public void showFullScreen(Context previousActivity, String pathImage,String nameImage)
+    {
         Intent fullScreenIntent = new Intent(previousActivity, FullScreenPhotoActivity.class);
 
         fullScreenIntent.putExtra(IMAGE_PATH_TAG, pathImage);
@@ -45,19 +47,21 @@ public class ImageController {
         previousActivity.startActivity(fullScreenIntent);
     }
 
-    public void showSelectedImageDialog(final Context context,final ImageModel iM){
-
+    public void showSelectedImageDialog(final Context context,final ImageModel iM)
+    {
         final Dialog dialog = new Dialog(context);
         dialog.setTitle(iM.getNom() + " (id: " + iM.getId() + ")" );
         DialogImageLayout diagLayout = new DialogImageLayout(context , iM);
 
-        diagLayout.getFullScreenButton().setOnClickListener(new View.OnClickListener() {
+        diagLayout.getFullScreenButton().setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                 ImageController.getInstance().showFullScreen(context, iM.getLocalpath(),iM.getNom());
             }
         });
-        diagLayout.getDismissButton().setOnClickListener(new View.OnClickListener() {
+        diagLayout.getDismissButton().setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -68,13 +72,15 @@ public class ImageController {
         dialog.show();
     }
 
-    public void showCatogoryListDialog(final Context context,List<String> categoryList) {
+    public void showCatogoryListDialog(final Context context,List<String> categoryList)
+    {
         final Dialog dialog = new Dialog(context);
 
         DialogCategoriesLayout diagLayout = new DialogCategoriesLayout(context, categoryList);
 
         for (final Button categoryButton : diagLayout.getCategoryButtons())
-            categoryButton.setOnClickListener(new View.OnClickListener() {
+            categoryButton.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
                 public void onClick(View v) {
                     String categoryToFilter = categoryButton.getText().toString();

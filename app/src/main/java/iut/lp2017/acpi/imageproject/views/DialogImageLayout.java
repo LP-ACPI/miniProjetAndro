@@ -14,7 +14,7 @@ import iut.lp2017.acpi.imageproject.models.ImageModel;
 import iut.lp2017.acpi.utilitaires.BitmapScaler;
 
 /**
- * Created by Marek on 27/01/2017.
+ * Created on 27/01/2017.
  */
 
 public class DialogImageLayout extends ScrollView
@@ -27,18 +27,21 @@ public class DialogImageLayout extends ScrollView
         super(context);
     }
 
-    public DialogImageLayout(Context context, ImageModel model) {
+    public DialogImageLayout(Context context, ImageModel model)
+    {
         super(context);
         this.model = model;
         initDialogView();
     }
 
-    public DialogImageLayout(Context context, AttributeSet attrs) {
+    public DialogImageLayout(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
         initDialogView();
     }
 
-    public DialogImageLayout(Context context, AttributeSet attrs, int defStyle) {
+    public DialogImageLayout(Context context, AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
         initDialogView();
     }
@@ -59,8 +62,8 @@ public class DialogImageLayout extends ScrollView
         return fullScreenButton;
     }
 
-    private void initDialogView(){
-
+    private void initDialogView()
+    {
         int ids = 1;
 
         RelativeLayout dialogRelLayout = new RelativeLayout(getContext());

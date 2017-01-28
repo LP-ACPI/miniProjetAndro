@@ -6,8 +6,8 @@ import android.graphics.Bitmap;
 import android.util.DisplayMetrics;
 
 /**
- * Created by Marek on 24/01/2017.
- * credit: https://gist.github.com/nesquena/3885707fd3773c09f1bb
+ * Created on 24/01/2017.
+ * credits: https://gist.github.com/nesquena/3885707fd3773c09f1bb
  */
 
 public class BitmapScaler

@@ -14,11 +14,11 @@ import iut.lp2017.acpi.R;
 import iut.lp2017.acpi.utilitaires.BitmapScaler;
 
 /**
- * Created by Marek on 27/01/2017.
+ * Created on 27/01/2017.
  */
 
-public class DialogCategoriesLayout extends ScrollView {
-
+public class DialogCategoriesLayout extends ScrollView
+{
     private List<String> categoryList;
     private List<Button> categsButtons;
     private Button noCategoryFilterButton;
@@ -27,22 +27,26 @@ public class DialogCategoriesLayout extends ScrollView {
     public DialogCategoriesLayout(Context context) {
         super(context);
     }
-    public DialogCategoriesLayout(Context context, List<String> categoryList) {
+
+    public DialogCategoriesLayout(Context context, List<String> categoryList)
+    {
         super(context);
         this.categoryList = categoryList;
         this.categsButtons = new ArrayList<Button>();
         initDialogView();
     }
+
     public DialogCategoriesLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public DialogCategoriesLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DialogCategoriesLayout(Context context, AttributeSet attrs, int defStyleAttr)
+    {
         super(context, attrs, defStyleAttr);
     }
 
-    private void initDialogView() {
-
+    private void initDialogView()
+    {
         int ids = 1;
         RelativeLayout relativeDialog = new RelativeLayout(getContext());
         RelativeLayout.LayoutParams DiagParams = new RelativeLayout.LayoutParams(

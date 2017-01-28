@@ -16,7 +16,7 @@ en continuité avec les TPs réalisés jusque là, application de ce qui a été
 ### TODO
 - revoir l'archi du projet (orga. en MVC & suppr. des trucs inutiles)
 - personnaliser le style (ex. ajouter/modif' effets sur focus/appui/lâcher d'item de liste/de boutons)
-- (done, mais par une seule, pas de choix multiple) gérer images en fonct. de catégorie(?s) (bonus) -> (todo?) transf. dialogue "Catégories" en activité (+choix multiple?)
-- corriger gestion zoom (décalage & màj positions de l'image) & revoir limites du scroll
-- gestion en orientation paysage (done: ajout du scroll pour les dialogues si trop gros pour écran)
-- ajout animation onFling dans le "plein écran" (bonus)
+- gérer images en fonct. de catégorie(?s |done, mais par une seule, pas de choix multiple)  (bonus) -> (todo?) transf. dialogue "Catégories" en activité (+choix multiple?)
+- revoir limites du scroll (utile? le longPress permet de recentrer l'image si jamais elle se barre on sait pas où)
+- gestion en orientation paysage (done: ajout du scroll pour les dialogues si trop gros pour écran + redimensionnement d'image en plein écran + espacements dans dialogue de filtreParCatégorie. Autre chose?)
+- ajout animation onFling dans le "plein écran" (bonus) (done: mais image découpée sur l'animation. Ajouter un traitement asynchrone?)
