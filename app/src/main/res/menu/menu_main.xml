@@ -3,7 +3,8 @@
     tools:context=".imageproject.ListImagesActivity">
     <item
         android:id="@+id/action_categories"
-        android:title="@string/categoryList"
+        android:title="@string/categoryFilter"
         android:orderInCategory="100"
-        android:showAsAction="never" />
+        android:showAsAction="always"
+        tools:ignore="AppCompatResource" />
 </menu>

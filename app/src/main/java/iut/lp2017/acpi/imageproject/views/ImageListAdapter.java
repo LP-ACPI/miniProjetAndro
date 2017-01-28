@@ -18,26 +18,30 @@ import iut.lp2017.acpi.utilitaires.BitmapScaler;
 /**
  * Created by necesanym on 04/01/17.
  */
-public class ImageListAdapter extends ArrayAdapter<ImageModel> {
-
+public class ImageListAdapter extends ArrayAdapter<ImageModel>
+{
     private Context context;
 
-    public ImageListAdapter(Context context, List<ImageModel> list) {
+    public ImageListAdapter(Context context, List<ImageModel> list)
+    {
         super(context, 0, list);
         this.context = context;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
 
-        if(convertView == null){
-            convertView = LayoutInflater.from(context).inflate(R.layout.image_list_item,parent, false);
+        if(convertView == null)
+        {
+            convertView = LayoutInflater.from(context).inflate(R.layout.image_list_item,parent,false);
         }
 
         imageListHolder viewHolder = (imageListHolder) convertView.getTag();
         ImageModel item = getItem(position);
 
-        if(viewHolder == null){
+        if(viewHolder == null)
+        {
             viewHolder = new imageListHolder();
             viewHolder.imgV = (ImageView) convertView.findViewById(R.id.image);
             viewHolder.nom = (TextView) convertView.findViewById(R.id.imageName);
@@ -55,11 +59,11 @@ public class ImageListAdapter extends ArrayAdapter<ImageModel> {
         return convertView;
     }
 
-    private class imageListHolder{
+    private class imageListHolder
+    {
         public ImageView imgV;
         public TextView nom;
         public TextView description;
         public TextView size;
-
     }
 }

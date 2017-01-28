@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import iut.lp2017.acpi.R;
@@ -16,7 +17,7 @@ import iut.lp2017.acpi.utilitaires.BitmapScaler;
  * Created by Marek on 27/01/2017.
  */
 
-public class DialogImageLayout extends RelativeLayout
+public class DialogImageLayout extends ScrollView
 {
     private Button dismissButton;
     private Button fullScreenButton;
@@ -28,17 +29,18 @@ public class DialogImageLayout extends RelativeLayout
 
     public DialogImageLayout(Context context, ImageModel model) {
         super(context);
-        initDialogView(model);
+        this.model = model;
+        initDialogView();
     }
 
     public DialogImageLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initDialogView(model);
+        initDialogView();
     }
 
     public DialogImageLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        initDialogView(model);
+        initDialogView();
     }
 
     public Button getDismissButton(){
@@ -57,17 +59,19 @@ public class DialogImageLayout extends RelativeLayout
         return fullScreenButton;
     }
 
-    private void initDialogView(ImageModel model){
+    private void initDialogView(){
 
-        setModel(model);
         int ids = 1;
 
+        RelativeLayout dialogRelLayout = new RelativeLayout(getContext());
         RelativeLayout.LayoutParams DiagParams = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.MATCH_PARENT
         );
+        dialogRelLayout.setLayoutParams(DiagParams);
         setLayoutParams(DiagParams);
 
+        int Offset10dp = (int)BitmapScaler.dpToPx(10,getContext());
         ImageView diagImage = new ImageView(getContext());
         diagImage.setId(ids++);
         RelativeLayout.LayoutParams diagImageParams = new RelativeLayout.LayoutParams(
@@ -75,7 +79,7 @@ public class DialogImageLayout extends RelativeLayout
                 RelativeLayout.LayoutParams.WRAP_CONTENT
         );
         diagImage.setLayoutParams(diagImageParams);
-        diagImage.setPadding(20, 10, 20, 10);
+        diagImage.setPadding(Offset10dp*2, Offset10dp, Offset10dp*2, Offset10dp);
 
         TextView diagNom = new TextView(getContext());
         diagNom.setId(ids++);
@@ -85,8 +89,8 @@ public class DialogImageLayout extends RelativeLayout
         );
         diagNomParams.addRule(RelativeLayout.RIGHT_OF, diagImage.getId());
         diagNom.setTextAppearance(getContext(), android.R.style.TextAppearance_Large);
+        diagNom.setPadding(0, Offset10dp, Offset10dp/2, Offset10dp);
         diagNom.setLayoutParams(diagNomParams);
-
 
         TextView diagDescription = new TextView(getContext());
         diagDescription.setId(ids++);
@@ -96,6 +100,7 @@ public class DialogImageLayout extends RelativeLayout
         );
         diagDescParams.addRule(RelativeLayout.RIGHT_OF,diagImage.getId());
         diagDescParams.addRule(RelativeLayout.BELOW, diagNom.getId());
+        diagDescription.setPadding(0, 0, Offset10dp/2, 0);
         diagDescription.setLayoutParams(diagDescParams);
 
         TextView diagSize = new TextView(getContext());
@@ -118,7 +123,7 @@ public class DialogImageLayout extends RelativeLayout
         diagCatsParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         diagCategories.setLayoutParams(diagCatsParams);
         diagCategories.setTextAppearance(getContext(), android.R.style.TextAppearance_DeviceDefault_Medium);
-        diagCategories.setPadding(0, 20, 0, 20);
+        diagCategories.setPadding(0, Offset10dp, 0, Offset10dp);
 
         fullScreenButton = new Button(getContext());
         fullScreenButton.setId(ids++);
@@ -133,7 +138,7 @@ public class DialogImageLayout extends RelativeLayout
 
         dismissButton = new Button(getContext());
         RelativeLayout.LayoutParams dialogButtonParams = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT
         );
         dialogButtonParams.addRule(RelativeLayout.BELOW, fullScreenButton.getId());
@@ -141,19 +146,19 @@ public class DialogImageLayout extends RelativeLayout
         dismissButton.setText(getContext().getString(R.string.close));
         dismissButton.setLayoutParams(dialogButtonParams);
 
-
         Bitmap img = BitmapScaler.scaleToFitWidth(model.getImageBitmap(),(int)BitmapScaler.dpToPx(125,getContext()));
         diagImage.setImageBitmap(img);
         diagNom.setText(model.getNom());
         diagDescription.setText(model.getDescription());
         diagSize.setText(Double.toString(model.getTaille()));
-        diagCategories.setText("Categories: " + model.getCategoriesStringified());
+        diagCategories.setText(getContext().getString(R.string.categories) + model.getCategoriesStringified());
 
-        addView(diagImage);
-        addView(diagNom);
-        addView(diagDescription);
-        addView(diagCategories);
-        addView(dismissButton);
-        addView(fullScreenButton);
+        dialogRelLayout.addView(diagImage);
+        dialogRelLayout.addView(diagNom);
+        dialogRelLayout.addView(diagDescription);
+        dialogRelLayout.addView(diagCategories);
+        dialogRelLayout.addView(dismissButton);
+        dialogRelLayout.addView(fullScreenButton);
+        addView(dialogRelLayout);
     }
 }

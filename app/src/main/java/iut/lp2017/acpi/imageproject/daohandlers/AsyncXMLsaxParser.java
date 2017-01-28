@@ -63,12 +63,6 @@ public class AsyncXMLsaxParser extends AsyncTask<String, Void, String>
                 ImageHandler imgHandler = new ImageHandler(context);
                 xr.setContentHandler(imgHandler);
                 xr.parse(source);
-                /**
-                 *  TODO :
-                 *      - ImageListAdapter pour ImageModel (actuellement pour photoModel)
-                 *      - Sortir la liste ci-dessous dans une ListView adaptée pour ImageModel, et dans une nouvelle activité
-                 *      - gestion de catégories d'images (une activité qui les liste) -> trier ou pas images par catégorie(s)
-                 */
                 listImages = imgHandler.getImgList();
                 listCategories = imgHandler.getDistinctCategories();
                 for(ImageModel i: imgHandler.getImgList())

@@ -14,9 +14,9 @@ en continuité avec les TPs réalisés jusque là, application de ce qui a été
 <img align="center" src="http://crackberry.com/sites/crackberry.com/files/styles/large/public/topic_images/2013/ANDROID.png?itok=xhm7jaxS" height="150" />
 
 ### TODO
-- revoir l'archi (supprimer les trucs inutiles)
-- ajouter/modif' effets sur focus/appui/lâcher d'item de liste/de boutons
-- gérer images en fonct. de catégorie (bonus) -> exporter dialogue "Catégories" en activité
-- corriger gestion zoom (décalage & màj positions de l'image) & limites du scroll
-- gestion en orientation paysage
-- ajout fling (bonus)
+- revoir l'archi du projet (orga. en MVC & suppr. des trucs inutiles)
+- personnaliser le style (ex. ajouter/modif' effets sur focus/appui/lâcher d'item de liste/de boutons)
+- (done, mais par une seule, pas de choix multiple) gérer images en fonct. de catégorie(?s) (bonus) -> (todo?) transf. dialogue "Catégories" en activité (+choix multiple?)
+- corriger gestion zoom (décalage & màj positions de l'image) & revoir limites du scroll
+- gestion en orientation paysage (done: ajout du scroll pour les dialogues si trop gros pour écran)
+- ajout animation onFling dans le "plein écran" (bonus)

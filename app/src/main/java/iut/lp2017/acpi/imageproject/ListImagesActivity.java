@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import iut.lp2017.acpi.R;
@@ -28,15 +29,22 @@ public class ListImagesActivity extends Activity implements I_Async {
 
     final Context context = this;
     private ListView tpListView;
+    private List<ImageModel> imageModelList;
+    private List<String> categoryList;
     private static AsyncXMLsaxParser AXSP;
+    private static ImageController imgCotroller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        imgCotroller = ImageController.getInstance();
+        imgCotroller.setListImageActivity(this);
 
         AXSP = new AsyncXMLsaxParser(this);
         AXSP.delegateViewEventsTo(this);
-        AXSP.execute("http://public.ave-comics.com/gabriel/iut/images.xml");
+        String officialUrl = "http://public.ave-comics.com/gabriel/iut/images.xml";
+        String testUrl = "http://infolimon.iutmontp.univ-montp2.fr/~necesanym/images.xml";
+        AXSP.execute(testUrl);
 
         setContentView(R.layout.activity_list);
 
@@ -49,7 +57,7 @@ public class ListImagesActivity extends Activity implements I_Async {
     public void asyncProcessBegan()
     {
         downloadProgress = new ProgressDialog(this);
-        downloadProgress.setMessage("téléchargement d'images...");
+        downloadProgress.setMessage(getResources().getString(R.string.downloading_images));
         downloadProgress.show();
     }
 
@@ -60,33 +68,51 @@ public class ListImagesActivity extends Activity implements I_Async {
         {
             if (!downloadProgress.isShowing())
                 downloadProgress.show();
-            downloadProgress.setMessage("téléchargement terminé!");
+            downloadProgress.setMessage(getResources().getString(R.string.images_downloaded));
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     downloadProgress.dismiss();
-                    initList(AXSP.getReachedImages());
+                    imageModelList = AXSP.getReachedImages();
+                    categoryList = AXSP.getReachedDistinctCategories();
+                    initList();
                 }
             }, 1500);
         }
     }
 
-    private void initList(List<ImageModel> imageList){
-        final ImageListAdapter listAdapter = new ImageListAdapter(this, imageList);
+    public void initList(){
+        final ImageListAdapter listAdapter = new ImageListAdapter(context, imageModelList);
+        tpListView.setAdapter(listAdapter);
+    }
+
+    private void initFilteredList(List<ImageModel> imageList){
+        final ImageListAdapter listAdapter = new ImageListAdapter(context, imageList);
         tpListView.setAdapter(listAdapter);
     }
 
     private void initListsItemDialog(ListView listV){
 
-        listV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listV.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
-
+            public void onItemClick(AdapterView<?> parent, View view, int position,long id)
+            {
                 ImageModel iM = (ImageModel) parent.getAdapter().getItem(position);
-                ImageController.getInstance().showSelectedImageDialog(context,iM);
-
+                imgCotroller.showSelectedImageDialog(context,iM);
             }
         });
+    }
 
+    public void filterListViewByCategoryName(String category){
+        List<ImageModel> tmpImageList = new ArrayList<>(imageModelList);
+        for(ImageModel iM : imageModelList)
+        {
+            if(!iM.getCategories().contains(category))
+            {
+                tmpImageList.remove(iM);
+            }
+        }
+        initFilteredList(tmpImageList);
     }
 
     @Override
@@ -101,10 +127,9 @@ public class ListImagesActivity extends Activity implements I_Async {
         int id = item.getItemId();
 
         if (id == R.id.action_categories) {
-            ImageController.getInstance().showCatogoryListDialog(context,AXSP.getReachedDistinctCategories());
+            imgCotroller.showCatogoryListDialog(context,categoryList);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

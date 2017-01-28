@@ -11,6 +11,11 @@
     <string name="fullScreen">plein écran</string>
     <string name="resetList">vider la liste</string>
     <string name="description">Description</string>
-    <string name="categoryList">Catégories</string>
     <string name="TP_3">TP Android n°3</string>
+    <string name="allCategories">Tout</string>
+    <string name="categories">Categorie(s): </string>
+    <string name="categoryFilter">Filtrer par catégorie</string>
+    <string name="images_downloaded">images téléchargées!</string>
+    <string name="downloading_images">téléchargement d\'images...</string>
+    <string name="filtred_by">filtré par</string>
 </resources>
