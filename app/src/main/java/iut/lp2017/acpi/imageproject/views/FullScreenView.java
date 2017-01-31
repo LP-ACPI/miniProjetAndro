@@ -21,16 +21,16 @@ import iut.lp2017.acpi.utilitaires.BitmapScaler;
  */
 
 public class FullScreenView extends View {
-    private Bitmap _BMPimage;
-    private Matrix _IMGmatrix;
+    private Bitmap _bmpImage;
+    private Matrix _imgMatrix;
     private int _viewHeightV;
     private int _viewWidth;
 
     private GestureDetector _gestureDetector;
     private ScaleGestureDetector _scaleGestDetector;
-    private int _IMGposX;
-    private int _IMGposY;
-    private boolean initialised = false;
+    private int _imgPosX;
+    private int _imgPosY;
+    private boolean _initialised = false;
 
     public FullScreenView(Context context)
     {
@@ -53,22 +53,22 @@ public class FullScreenView extends View {
     @Override
     protected void onDraw(Canvas canvas)
     {
-        if(!initialised)
+        if(!_initialised)
         {
-            _IMGmatrix = new Matrix();
+            _imgMatrix = new Matrix();
             _viewWidth = getMeasuredWidth();
             _viewHeightV = getMeasuredHeight();
-            _IMGposX = _viewWidth /2 - _BMPimage.getWidth()/2;
-            _IMGposY = _viewHeightV /2 - _BMPimage.getHeight()/2;
-            _IMGmatrix.setTranslate(_IMGposX, _IMGposY);
-            initialised = true;
+            _imgPosX = _viewWidth /2 - _bmpImage.getWidth()/2;
+            _imgPosY = _viewHeightV /2 - _bmpImage.getHeight()/2;
+            _imgMatrix.setTranslate(_imgPosX, _imgPosY);
+            _initialised = true;
         }
-        canvas.drawBitmap(_BMPimage, _IMGmatrix, null);
+        canvas.drawBitmap(_bmpImage, _imgMatrix, null);
     }
 
-    public void set_BMPimage(Bitmap BMPimage)
+    public void set_bmpImage(Bitmap BMPimage)
     {
-        this._BMPimage = BMPimage;
+        this._bmpImage = BMPimage;
     }
 
     @Override
@@ -91,43 +91,26 @@ public class FullScreenView extends View {
 
     public void animateMove(float dx, float dy)
     {
-        //TODO : revoir les limites de positionnement & màj position
-/*      float currentX = _IMGposX - dx;
-        float currentY = _IMGposY - dy;
-        int dpOffset = (int)BitmapScaler.dpToPx(25,getContext());
-        boolean gaucheDansCadre = currentX > -_BMPimage.getWidth()+dpOffset;
-        boolean droiteDansCadre = currentX < _viewWidth - dpOffset;
-        boolean hautDansCadre   = currentY > -_BMPimage.getHeight()+dpOffset;
-        boolean basDansCadre    = currentY < _viewHeightV - dpOffset;
-
-        if(!gaucheDansCadre || !droiteDansCadre)
-            dx = 0;
-        else _IMGposX -= dx;
-
-        if(!hautDansCadre || !basDansCadre)
-            dy = 0;
-        else _IMGposY -= dy;
-*/
-        _IMGposX -= dx;
-        _IMGposY -= dy;
-        _IMGmatrix.postTranslate(-dx, -dy);
+        _imgPosX -= dx;
+        _imgPosY -= dy;
+        _imgMatrix.postTranslate(-dx, -dy);
         //au lieu de 'invalidate()' -> évite le clipping de draw+animation dans animateFlingMove
         postInvalidateDelayed(0);
     }
 
     public void animateScale(float pivotX,float pivotY,float coefZoom)
     {
-        _IMGmatrix.postScale(coefZoom,coefZoom,pivotX,pivotY);
+        _imgMatrix.postScale(coefZoom,coefZoom,pivotX,pivotY);
         invalidate();
     }
 
     public void updateImageAfterScale(float coefZoom)
     {
-        float newWidth = _BMPimage.getWidth()*coefZoom;
-        float newHeight = _BMPimage.getHeight()*coefZoom;
-        _IMGposX -= _IMGposX*coefZoom;
-        _IMGposY -= _IMGposY*coefZoom;
-        set_BMPimage(Bitmap.createScaledBitmap(_BMPimage,(int)newWidth,(int)newHeight, false));
+        float newWidth = _bmpImage.getWidth()*coefZoom;
+        float newHeight = _bmpImage.getHeight()*coefZoom;
+        _imgPosX -= _imgPosX *coefZoom;
+        _imgPosY -= _imgPosY *coefZoom;
+        set_bmpImage(Bitmap.createScaledBitmap(_bmpImage,(int)newWidth,(int)newHeight, false));
     }
 
     public void animateFlingMove(final float endFlingX,final float endFlingY)
@@ -146,7 +129,7 @@ public class FullScreenView extends View {
         };
 
         Animation translate = new TranslateAnimation(0,endFlingX,0,endFlingY);
-        translate.setDuration(500);
+        translate.setDuration(750);
         translate.setInterpolator(new LinearOutSlowInInterpolator());
         translate.setAnimationListener(aL);
         startAnimation(translate);
@@ -155,10 +138,10 @@ public class FullScreenView extends View {
     public void intialiseView(boolean fitImageToWidth)
     {
         if(fitImageToWidth)
-            set_BMPimage(BitmapScaler.scaleToFitWidth(_BMPimage, _viewWidth));
+            set_bmpImage(BitmapScaler.scaleToFitWidth(_bmpImage, _viewWidth));
         else
-            set_BMPimage(BitmapScaler.scaleToFitHeight(_BMPimage, _viewHeightV));
-        initialised = false;
+            set_bmpImage(BitmapScaler.scaleToFitHeight(_bmpImage, _viewHeightV));
+        _initialised = false;
         invalidate();
     }
 }

@@ -17,27 +17,28 @@ import iut.lp2017.acpi.imageproject.models.ImageModel;
 
 public class ImageHandler extends DefaultHandler
 {
-    boolean idTag = false;
-    boolean nameTag = false;
-    boolean descriptTag = false;
+    private static Context _sContext;
+    private boolean _idTag = false;
+    private boolean _nameTag = false;
 
-    private List<ImageModel> imgList;
-    private List<String> distinctCategories;
-    private ImageModel img;
-    private static Context context;
+    private boolean _descriptTag = false;
+    private List<String> _distinctCategories;
+    private List<ImageModel> _imgList;
+    private ImageModel _img;
 
     public ImageHandler(Context context)
     {
-        this.context = context;
+        _sContext = context;
     }
 
     public List<String> getDistinctCategories()
     {
-        return distinctCategories;
+        return _distinctCategories;
     }
+
     public List<ImageModel> getImgList()
     {
-        return imgList;
+        return _imgList;
     }
 
     @Override
@@ -46,37 +47,37 @@ public class ImageHandler extends DefaultHandler
     {
         if (rawName.equalsIgnoreCase("image"))
         {
-            img = new ImageModel();
-            img.setContext(context);
-            if(imgList == null)
+            _img = new ImageModel();
+            _img.setContext(_sContext);
+            if(_imgList == null)
             {
-                imgList = new ArrayList<ImageModel>();
-                distinctCategories = new ArrayList<String>();
+                _imgList = new ArrayList<ImageModel>();
+                _distinctCategories = new ArrayList<String>();
             }
         }
         else if (rawName.equalsIgnoreCase("id"))
         {
-            idTag = true;
+            _idTag = true;
         }
         else if (rawName.equalsIgnoreCase("name"))
         {
-            nameTag = true;
+            _nameTag = true;
         }
         else if (rawName.equalsIgnoreCase("description"))
         {
-            descriptTag = true;
+            _descriptTag = true;
         }
         else if (rawName.equalsIgnoreCase("link"))
         {
-            img.setImageLink(attributes.getValue("href"));
-            img.updateBitmap();
+            _img.setImageLink(attributes.getValue("href"));
+            _img.updateBitmap();
         }
         else if(rawName.equalsIgnoreCase("category"))
         {
             String categ = attributes.getValue("label");
-            img.addCategorie(categ);
-            if(!distinctCategories.contains(categ))
-                distinctCategories.add(categ);
+            _img.addCategorie(categ);
+            if(!_distinctCategories.contains(categ))
+                _distinctCategories.add(categ);
         }
     }
 
@@ -85,26 +86,26 @@ public class ImageHandler extends DefaultHandler
     {
         if (rawName.equalsIgnoreCase("image"))
         {
-            imgList.add(img);
+            _imgList.add(_img);
         }
     }
 
     @Override
     public void characters(char[] ch, int start, int length) {
-        if (idTag)
+        if (_idTag)
         {
-            img.setId(Integer.parseInt(new String(ch, start, length)));
-            idTag = false;
+            _img.setId(Integer.parseInt(new String(ch, start, length)));
+            _idTag = false;
         }
-        else if (nameTag)
+        else if (_nameTag)
         {
-            img.setNom(new String(ch, start, length));
-            nameTag = false;
+            _img.setNom(new String(ch, start, length));
+            _nameTag = false;
         }
-        else if (descriptTag)
+        else if (_descriptTag)
         {
-            img.setDescription(new String(ch, start, length));
-            descriptTag = false;
+            _img.setDescription(new String(ch, start, length));
+            _descriptTag = false;
         }
     }
 }

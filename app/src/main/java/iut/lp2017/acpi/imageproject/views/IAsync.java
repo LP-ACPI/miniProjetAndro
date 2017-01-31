@@ -1,10 +1,10 @@
 package iut.lp2017.acpi.imageproject.views;
 
 /**
- * Created by Marek on 26/01/2017.
+ * Created on 26/01/2017.
  */
 
-public interface I_Async {
+public interface IAsync {
     void asyncProcessBegan();
     void asyncProcessDone();
 }

@@ -16,16 +16,16 @@ import iut.lp2017.acpi.imageproject.models.ImageModel;
 import iut.lp2017.acpi.utilitaires.BitmapScaler;
 
 /**
- * Created by necesanym on 04/01/17.
+ * Created on 04/01/17.
  */
 public class ImageListAdapter extends ArrayAdapter<ImageModel>
 {
-    private Context context;
+    private Context _context;
 
     public ImageListAdapter(Context context, List<ImageModel> list)
     {
         super(context, 0, list);
-        this.context = context;
+        _context = context;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class ImageListAdapter extends ArrayAdapter<ImageModel>
     {
         if(convertView == null)
         {
-            convertView = LayoutInflater.from(context).inflate(R.layout.image_list_item,parent,false);
+            convertView = LayoutInflater.from(_context).inflate(R.layout.image_list_item,parent,false);
         }
 
         imageListHolder viewHolder = (imageListHolder) convertView.getTag();
@@ -51,7 +51,7 @@ public class ImageListAdapter extends ArrayAdapter<ImageModel>
 
         viewHolder.nom.setText(item.getNom());
         viewHolder.description.setText(item.getDescription());
-        Bitmap img = BitmapScaler.scaleToFill(item.getImageBitmap(), (int)BitmapScaler.dpToPx(60,context),(int)BitmapScaler.dpToPx(80,context));
+        Bitmap img = BitmapScaler.scaleToFill(item.getImageBitmap(), (int)BitmapScaler.dpToPx(60, _context),(int)BitmapScaler.dpToPx(80, _context));
         viewHolder.imgV.setImageBitmap(img);
         viewHolder.size.setText(Double.toString(item.getTaille()));
 

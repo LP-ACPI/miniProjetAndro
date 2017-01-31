@@ -19,10 +19,10 @@ import iut.lp2017.acpi.utilitaires.BitmapScaler;
 
 public class DialogCategoriesLayout extends ScrollView
 {
-    private List<String> categoryList;
-    private List<Button> categsButtons;
-    private Button noCategoryFilterButton;
-    private Button dismissButton;
+    private List<String> _categoryList;
+    private List<Button> _categsButtons;
+    private Button _noCategoryFilterButton;
+    private Button _dismissButton;
 
     public DialogCategoriesLayout(Context context) {
         super(context);
@@ -31,8 +31,8 @@ public class DialogCategoriesLayout extends ScrollView
     public DialogCategoriesLayout(Context context, List<String> categoryList)
     {
         super(context);
-        this.categoryList = categoryList;
-        this.categsButtons = new ArrayList<Button>();
+        _categoryList = categoryList;
+        _categsButtons = new ArrayList<Button>();
         initDialogView();
     }
 
@@ -64,7 +64,7 @@ public class DialogCategoriesLayout extends ScrollView
             buttonOffset = (int)BitmapScaler.dpToPx(5,getContext());
 
         Button categoryButton = null;
-        for(String category: categoryList){
+        for(String category: _categoryList){
             categoryButton = new Button(getContext());
             categoryButton.setId(ids++);
             RelativeLayout.LayoutParams categoryButtonParams = new RelativeLayout.LayoutParams(
@@ -74,15 +74,14 @@ public class DialogCategoriesLayout extends ScrollView
             categoryButtonParams.setMargins(0,buttonOffset,0,buttonOffset);
             categoryButtonParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
             categoryButtonParams.addRule(RelativeLayout.BELOW, categoryButton.getId()-1);
-
             categoryButton.setText(category);
             categoryButton.setLayoutParams(categoryButtonParams);
             relativeDialog.addView(categoryButton);
-            categsButtons.add(categoryButton);
+            _categsButtons.add(categoryButton);
         }
 
-        noCategoryFilterButton = new Button(getContext());
-        noCategoryFilterButton.setId(ids++);
+        _noCategoryFilterButton = new Button(getContext());
+        _noCategoryFilterButton.setId(ids++);
         RelativeLayout.LayoutParams noCategoryFilterButtonParams = new RelativeLayout.LayoutParams(
                 LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT
@@ -90,31 +89,31 @@ public class DialogCategoriesLayout extends ScrollView
         noCategoryFilterButtonParams.setMargins(0,buttonOffset*2,0,0);
         noCategoryFilterButtonParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         noCategoryFilterButtonParams.addRule(RelativeLayout.BELOW,categoryButton.getId());
-        noCategoryFilterButton.setText(getContext().getString(R.string.allCategories));
-        noCategoryFilterButton.setLayoutParams(noCategoryFilterButtonParams);
-        relativeDialog.addView(noCategoryFilterButton);
+        _noCategoryFilterButton.setText(getContext().getString(R.string.allCategories));
+        _noCategoryFilterButton.setLayoutParams(noCategoryFilterButtonParams);
+        relativeDialog.addView(_noCategoryFilterButton);
 
-        dismissButton = new Button(getContext());
+        _dismissButton = new Button(getContext());
         RelativeLayout.LayoutParams dialogButtonParams = new RelativeLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT
         );
         dialogButtonParams.setMargins(5,buttonOffset*2,5,5);
         dialogButtonParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        dialogButtonParams.addRule(RelativeLayout.BELOW,noCategoryFilterButton.getId());
+        dialogButtonParams.addRule(RelativeLayout.BELOW, _noCategoryFilterButton.getId());
 
-        dismissButton.setText(getContext().getString(R.string.close));
-        dismissButton.setLayoutParams(dialogButtonParams);
+        _dismissButton.setText(getContext().getString(R.string.close));
+        _dismissButton.setLayoutParams(dialogButtonParams);
 
-        relativeDialog.addView(dismissButton);
+        relativeDialog.addView(_dismissButton);
         addView(relativeDialog);
     }
 
     public Button getDismissButton() {
-        return dismissButton;
+        return _dismissButton;
     }
     public List<Button> getCategoryButtons() {
-        return categsButtons;
+        return _categsButtons;
     }
-    public Button getNoCategoryFilterButton() { return noCategoryFilterButton; }
+    public Button getNoCategoryFilterButton() { return _noCategoryFilterButton; }
 }

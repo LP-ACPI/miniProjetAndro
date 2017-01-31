@@ -5,4 +5,9 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="NavyBtn" parent="Theme.AppCompat.Light">
+        <item name="colorButtonNormal">#020e39</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
 </resources>

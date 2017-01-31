@@ -16,7 +16,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import iut.lp2017.acpi.imageproject.models.ImageModel;
-import iut.lp2017.acpi.imageproject.views.I_Async;
+import iut.lp2017.acpi.imageproject.views.IAsync;
 
 /**
  * Created on 26/01/2017.
@@ -24,23 +24,24 @@ import iut.lp2017.acpi.imageproject.views.I_Async;
 
 public class AsyncXMLsaxParser extends AsyncTask<String, Void, String>
 {
-    private I_Async delegate;
-    private static Context context;
-    private Exception exception;
-    HttpURLConnection httpConnection;
-    private List<ImageModel> listImages;
-    private List<String> listCategories;
+    private static IAsync _sDelegate;
+    private static Context _sContext;
+    private Exception _exception;
+    private HttpURLConnection _httpConnection;
+    private List<ImageModel> _listImages;
+    private List<String> _listCategories;
 
-    public AsyncXMLsaxParser(Context context){
-        this.context = context;
+    public AsyncXMLsaxParser(Context context)
+    {
+        _sContext = context;
     }
 
     @Override
     protected void onPreExecute()
     {
-        listImages = new ArrayList<ImageModel>();
-        listCategories = new ArrayList<String>();
-        delegate.asyncProcessBegan();
+        _sDelegate.asyncProcessBegan();
+        _listImages = new ArrayList<ImageModel>();
+        _listCategories = new ArrayList<String>();
     }
 
     protected String doInBackground(String... urls)
@@ -49,21 +50,21 @@ public class AsyncXMLsaxParser extends AsyncTask<String, Void, String>
         {
             URL url = new URL(urls[0]);
 
-            httpConnection = (HttpURLConnection) url.openConnection();
-            int responseCode = httpConnection.getResponseCode();
+            _httpConnection = (HttpURLConnection) url.openConnection();
+            int responseCode = _httpConnection.getResponseCode();
 
             if (responseCode == HttpURLConnection.HTTP_OK)
             {
-                InputStream stream = httpConnection.getInputStream();
+                InputStream stream = _httpConnection.getInputStream();
                 InputSource source = new InputSource(stream);
                 SAXParserFactory spf = SAXParserFactory.newInstance();
                 SAXParser sp = spf.newSAXParser();
                 XMLReader xr = sp.getXMLReader();
-                ImageHandler imgHandler = new ImageHandler(context);
+                ImageHandler imgHandler = new ImageHandler(_sContext);
                 xr.setContentHandler(imgHandler);
                 xr.parse(source);
-                listImages = imgHandler.getImgList();
-                listCategories = imgHandler.getDistinctCategories();
+                _listImages = imgHandler.getImgList();
+                _listCategories = imgHandler.getDistinctCategories();
 
                 return "in progress...";
             }
@@ -73,7 +74,7 @@ public class AsyncXMLsaxParser extends AsyncTask<String, Void, String>
         }
         catch (Exception e)
         {
-            exception = e;
+            _exception = e;
             return "fail... ";
         }
 
@@ -82,17 +83,17 @@ public class AsyncXMLsaxParser extends AsyncTask<String, Void, String>
     @Override
     protected void onPostExecute(String res)
     {
-        if(exception != null)
+        if(_exception != null)
         {
-            exception.printStackTrace();
+            _exception.printStackTrace();
         }
-        httpConnection.disconnect();
-        delegate.asyncProcessDone();
+        _httpConnection.disconnect();
+        _sDelegate.asyncProcessDone();
     }
 
-    public void delegateViewEventsTo(I_Async async)
+    public static void delegateViewEventsTo(IAsync async)
     {
-        delegate = async;
+        _sDelegate = async;
     }
 
     /**
@@ -101,7 +102,7 @@ public class AsyncXMLsaxParser extends AsyncTask<String, Void, String>
      */
     public List<ImageModel> getReachedImages()
     {
-        return listImages;
+        return _listImages;
     }
 
     /**
@@ -110,7 +111,9 @@ public class AsyncXMLsaxParser extends AsyncTask<String, Void, String>
      */
     public List<String> getReachedDistinctCategories()
     {
-        return listCategories;
+        return _listCategories;
     }
+
+    public Exception getException(){ return _exception; }
 }
 

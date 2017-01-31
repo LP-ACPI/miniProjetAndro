@@ -16,15 +16,16 @@ import iut.lp2017.acpi.imageproject.views.FullScreenView;
 import iut.lp2017.acpi.utilitaires.BitmapScaler;
 
 /**
- * Created by necesanym on 18/01/17.
+ * Created on 18/01/17.
  */
 public class FullScreenPhotoActivity extends Activity
 {
-    private static final String IMAGE_PATH_TAG = "intent.tpun.acpi.image_source";
-    private static final String IMAGE_NAME_TAG = "intent.tpun.acpi.image_name";
+    private static final String IMAGE_PATH_TAG = "intent.acpi.image_source";
+    private static final String IMAGE_NAME_TAG = "intent.acpi.image_name";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -37,8 +38,8 @@ public class FullScreenPhotoActivity extends Activity
 
         setContentView(R.layout.activity_fullscreen);
         FullScreenView fsView = (FullScreenView) findViewById(R.id.fullscreenview);
-        TextView tv = (TextView) findViewById(R.id.imageName);
-        tv.setText(imageName);
+        TextView imageNameText = (TextView) findViewById(R.id.imageName);
+        imageNameText.setText(imageName);
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -48,8 +49,8 @@ public class FullScreenPhotoActivity extends Activity
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         boolean isPortrait = Configuration.ORIENTATION_PORTRAIT == getResources().getConfiguration().orientation;
         if (isPortrait)
-            fsView.set_BMPimage(BitmapScaler.scaleToFitWidth(bmp,metrics.widthPixels));
+            fsView.set_bmpImage(BitmapScaler.scaleToFitWidth(bmp,metrics.widthPixels));
         else
-            fsView.set_BMPimage(BitmapScaler.scaleToFitHeight(bmp,metrics.heightPixels));
+            fsView.set_bmpImage(BitmapScaler.scaleToFitHeight(bmp,metrics.heightPixels));
     }
 }

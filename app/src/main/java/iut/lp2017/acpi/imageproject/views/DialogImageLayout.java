@@ -19,9 +19,9 @@ import iut.lp2017.acpi.utilitaires.BitmapScaler;
 
 public class DialogImageLayout extends ScrollView
 {
-    private Button dismissButton;
-    private Button fullScreenButton;
-    private ImageModel model;
+    private Button _dismissButton;
+    private Button _fullScreenButton;
+    private ImageModel _model;
 
     public DialogImageLayout(Context context) {
         super(context);
@@ -30,7 +30,7 @@ public class DialogImageLayout extends ScrollView
     public DialogImageLayout(Context context, ImageModel model)
     {
         super(context);
-        this.model = model;
+        _model = model;
         initDialogView();
     }
 
@@ -47,19 +47,19 @@ public class DialogImageLayout extends ScrollView
     }
 
     public Button getDismissButton(){
-        return dismissButton;
+        return _dismissButton;
     }
 
     public ImageModel getModel() {
-        return model;
+        return _model;
     }
 
     public void setModel(ImageModel model) {
-        this.model = model;
+        _model = model;
     }
 
     public Button getFullScreenButton() {
-        return fullScreenButton;
+        return _fullScreenButton;
     }
 
     private void initDialogView()
@@ -128,40 +128,40 @@ public class DialogImageLayout extends ScrollView
         diagCategories.setTextAppearance(getContext(), android.R.style.TextAppearance_DeviceDefault_Medium);
         diagCategories.setPadding(0, Offset10dp, 0, Offset10dp);
 
-        fullScreenButton = new Button(getContext());
-        fullScreenButton.setId(ids++);
+        _fullScreenButton = new Button(getContext());
+        _fullScreenButton.setId(ids++);
         RelativeLayout.LayoutParams fulscreenButtonParams = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT
         );
         fulscreenButtonParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         fulscreenButtonParams.addRule(RelativeLayout.BELOW, diagCategories.getId());
-        fullScreenButton.setText(getContext().getString(R.string.fullScreen));
-        fullScreenButton.setLayoutParams(fulscreenButtonParams);
+        _fullScreenButton.setText(getContext().getString(R.string.fullScreen));
+        _fullScreenButton.setLayoutParams(fulscreenButtonParams);
 
-        dismissButton = new Button(getContext());
+        _dismissButton = new Button(getContext());
         RelativeLayout.LayoutParams dialogButtonParams = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT
         );
-        dialogButtonParams.addRule(RelativeLayout.BELOW, fullScreenButton.getId());
+        dialogButtonParams.addRule(RelativeLayout.BELOW, _fullScreenButton.getId());
         dialogButtonParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        dismissButton.setText(getContext().getString(R.string.close));
-        dismissButton.setLayoutParams(dialogButtonParams);
+        _dismissButton.setText(getContext().getString(R.string.close));
+        _dismissButton.setLayoutParams(dialogButtonParams);
 
-        Bitmap img = BitmapScaler.scaleToFitWidth(model.getImageBitmap(),(int)BitmapScaler.dpToPx(125,getContext()));
+        Bitmap img = BitmapScaler.scaleToFitWidth(_model.getImageBitmap(),(int)BitmapScaler.dpToPx(125,getContext()));
         diagImage.setImageBitmap(img);
-        diagNom.setText(model.getNom());
-        diagDescription.setText(model.getDescription());
-        diagSize.setText(Double.toString(model.getTaille()));
-        diagCategories.setText(getContext().getString(R.string.categories) + model.getCategoriesStringified());
+        diagNom.setText(_model.getNom());
+        diagDescription.setText(_model.getDescription());
+        diagSize.setText(Double.toString(_model.getTaille()));
+        diagCategories.setText(getContext().getString(R.string.categories) + _model.getCategoriesStringified());
 
         dialogRelLayout.addView(diagImage);
         dialogRelLayout.addView(diagNom);
         dialogRelLayout.addView(diagDescription);
         dialogRelLayout.addView(diagCategories);
-        dialogRelLayout.addView(dismissButton);
-        dialogRelLayout.addView(fullScreenButton);
+        dialogRelLayout.addView(_dismissButton);
+        dialogRelLayout.addView(_fullScreenButton);
         addView(dialogRelLayout);
     }
 }

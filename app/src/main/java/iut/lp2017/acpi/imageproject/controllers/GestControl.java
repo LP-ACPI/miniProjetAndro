@@ -14,18 +14,18 @@ import iut.lp2017.acpi.imageproject.views.FullScreenView;
 
 public class GestControl implements OnGestureListener,OnScaleGestureListener,OnDoubleTapListener
 {
-    private FullScreenView view;
-    float coefZoom;
-    boolean imgFitToWitdth;
-    boolean doubleTapZoomSwitch;
-    boolean zoomOut;
+    private boolean _doubleTapZoomSwitch;
+    private boolean _imgFitToWitdth;
+    private boolean _zoomOut;
+    private float _coefZoom;
+    private FullScreenView _view;
 
     public GestControl(FullScreenView view)
     {
-        this.view = view;
-        zoomOut = true;
-        imgFitToWitdth = true;
-        doubleTapZoomSwitch = true;
+        _view = view;
+        _zoomOut = true;
+        _imgFitToWitdth = true;
+        _doubleTapZoomSwitch = true;
     }
 
     @Override
@@ -39,22 +39,22 @@ public class GestControl implements OnGestureListener,OnScaleGestureListener,OnD
         float centerX = e.getX();
         float centerY = e.getY();
 
-        if(doubleTapZoomSwitch)
+        if(_doubleTapZoomSwitch)
         {
-            if(!zoomOut)
-                view.animateScale(centerX, centerY, 0.4f);
+            if(!_zoomOut)
+                _view.animateScale(centerX, centerY, 0.4f);
             else
-                view.animateScale(centerX, centerY, 2.5f);
+                _view.animateScale(centerX, centerY, 2.5f);
         }
         else
         {
-            if(zoomOut)
-                view.animateScale(centerX, centerY, 0.4f);
+            if(_zoomOut)
+                _view.animateScale(centerX, centerY, 0.4f);
             else
-                view.animateScale(centerX, centerY, 2.5f);
-            zoomOut = !zoomOut;
+                _view.animateScale(centerX, centerY, 2.5f);
+            _zoomOut = !_zoomOut;
         }
-        doubleTapZoomSwitch = !doubleTapZoomSwitch;
+        _doubleTapZoomSwitch = !_doubleTapZoomSwitch;
         return true;
     }
 
@@ -65,12 +65,13 @@ public class GestControl implements OnGestureListener,OnScaleGestureListener,OnD
     }
 
     @Override
-    public boolean onScale(ScaleGestureDetector detector) {
-        coefZoom = detector.getScaleFactor();
-        coefZoom = Math.max(0.1f, Math.min(coefZoom, 5.0f));
+    public boolean onScale(ScaleGestureDetector detector)
+    {
+        _coefZoom = detector.getScaleFactor();
+        _coefZoom = Math.max(0.1f, Math.min(_coefZoom, 5.0f));
         float pivotPosX = detector.getFocusX();
         float pivotPosY = detector.getFocusY();
-        view.animateScale(pivotPosX,pivotPosY,coefZoom);
+        _view.animateScale(pivotPosX,pivotPosY, _coefZoom);
         return true;
     }
 
@@ -82,7 +83,7 @@ public class GestControl implements OnGestureListener,OnScaleGestureListener,OnD
 
     @Override
     public void onScaleEnd(ScaleGestureDetector detector) {
-        view.updateImageAfterScale(coefZoom);
+        _view.updateImageAfterScale(_coefZoom);
     }
 
     @Override
@@ -101,25 +102,25 @@ public class GestControl implements OnGestureListener,OnScaleGestureListener,OnD
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
     {
-        view.animateMove(distanceX, distanceY);
+        _view.animateMove(distanceX, distanceY);
         return true;
     }
 
     @Override
     public void onLongPress(MotionEvent e)
     {
-        imgFitToWitdth = !imgFitToWitdth;
-        view.intialiseView(imgFitToWitdth);
+        _imgFitToWitdth = !_imgFitToWitdth;
+        _view.intialiseView(_imgFitToWitdth);
     }
 
     @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
+    {
         final float coefTemps = 0.2f;
         final float dx = (coefTemps * velocityX / 2);
         final float dy = (coefTemps * velocityY / 2);
 
-        view.animateFlingMove(dx,dy);
+        _view.animateFlingMove(dx,dy);
         return false;
     }
 }

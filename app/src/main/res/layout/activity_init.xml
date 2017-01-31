@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBlack">
+
+    <RelativeLayout
+        android:layout_gravity="center"
+        android:id="@+id/WarningDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible">
+        <ImageView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/warnicon"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@mipmap/andro_clueless"/>
+        <TextView
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:textAlignment="center"
+            android:id="@+id/warningText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/warnicon"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse"/>
+
+        <RelativeLayout
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/warningText">
+            <Button
+                android:id="@+id/quitbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="finish"
+                android:text="@string/quit"
+                android:background="@drawable/button"/>
+            <Button
+                android:layout_toRightOf="@id/quitbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/retry"
+                android:onClick="reset"
+                android:background="@drawable/button"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</FrameLayout>

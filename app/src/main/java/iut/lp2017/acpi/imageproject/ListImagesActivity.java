@@ -1,10 +1,8 @@
 package iut.lp2017.acpi.imageproject;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,96 +14,68 @@ import java.util.List;
 
 import iut.lp2017.acpi.R;
 import iut.lp2017.acpi.imageproject.controllers.ImageController;
-import iut.lp2017.acpi.imageproject.daohandlers.AsyncXMLsaxParser;
 import iut.lp2017.acpi.imageproject.models.ImageModel;
-import iut.lp2017.acpi.imageproject.views.I_Async;
 import iut.lp2017.acpi.imageproject.views.ImageListAdapter;
 
 /**
- * Created by Marek on 27/01/2017.
+ * Created on 27/01/2017.
  */
 
-public class ListImagesActivity extends Activity implements I_Async {
+public class ListImagesActivity extends Activity
+{
+    private final Context _context = this;
 
-    final Context context = this;
-    private ListView tpListView;
-    private List<ImageModel> imageModelList;
-    private List<String> categoryList;
-    private static AsyncXMLsaxParser AXSP;
-    private static ImageController imgCotroller;
+    private ListView _listView;
+    private List<ImageModel> _imageModelList;
+    private List<String> _categoryList;
+    private boolean filterOn;
+
+    private static ImageController _sImgCotroller = ImageController.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        imgCotroller = ImageController.getInstance();
-        imgCotroller.setListImageActivity(this);
-
-        AXSP = new AsyncXMLsaxParser(this);
-        AXSP.delegateViewEventsTo(this);
-        String officialUrl = "http://public.ave-comics.com/gabriel/iut/images.xml";
-        String testUrl = "http://infolimon.iutmontp.univ-montp2.fr/~necesanym/images.xml";
-        AXSP.execute(testUrl);
+        _sImgCotroller.setListImageActivity(this);
 
         setContentView(R.layout.activity_list);
+        _listView = (ListView) findViewById(R.id.tpListView);
+        initListsItemDialog(_listView);
 
-        tpListView = (ListView) findViewById(R.id.tpListView);
-        initListsItemDialog(tpListView);
+        _sImgCotroller.transferDownloadedData();
+        initList();
     }
 
-    ProgressDialog downloadProgress;
-    @Override
-    public void asyncProcessBegan()
+    public void initList()
     {
-        downloadProgress = new ProgressDialog(this);
-        downloadProgress.setMessage(getResources().getString(R.string.downloading_images));
-        downloadProgress.show();
+        final ImageListAdapter listAdapter = new ImageListAdapter(_context, _imageModelList);
+        _listView.setAdapter(listAdapter);
+        filterOn = false;
     }
 
-    @Override
-    public void asyncProcessDone()
+    private void initFilteredList(List<ImageModel> imageList)
     {
-        if(downloadProgress!= null)
-        {
-            if (!downloadProgress.isShowing())
-                downloadProgress.show();
-            downloadProgress.setMessage(getResources().getString(R.string.images_downloaded));
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    downloadProgress.dismiss();
-                    imageModelList = AXSP.getReachedImages();
-                    categoryList = AXSP.getReachedDistinctCategories();
-                    initList();
-                }
-            }, 1500);
-        }
+        final ImageListAdapter listAdapter = new ImageListAdapter(_context, imageList);
+        _listView.setAdapter(listAdapter);
+        filterOn = true;
     }
 
-    public void initList(){
-        final ImageListAdapter listAdapter = new ImageListAdapter(context, imageModelList);
-        tpListView.setAdapter(listAdapter);
-    }
-
-    private void initFilteredList(List<ImageModel> imageList){
-        final ImageListAdapter listAdapter = new ImageListAdapter(context, imageList);
-        tpListView.setAdapter(listAdapter);
-    }
-
-    private void initListsItemDialog(ListView listV){
-
+    private void initListsItemDialog(ListView listV)
+    {
         listV.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,long id)
             {
                 ImageModel iM = (ImageModel) parent.getAdapter().getItem(position);
-                imgCotroller.showSelectedImageDialog(context,iM);
+                _sImgCotroller.showSelectedImageDialog(_context,iM);
             }
         });
     }
 
-    public void filterListViewByCategoryName(String category){
-        List<ImageModel> tmpImageList = new ArrayList<>(imageModelList);
-        for(ImageModel iM : imageModelList)
+    public void filterListViewByCategoryName(String category)
+    {
+        List<ImageModel> tmpImageList = new ArrayList<>(_imageModelList);
+        for(ImageModel iM : _imageModelList)
         {
             if(!iM.getCategories().contains(category))
             {
@@ -115,21 +85,42 @@ public class ListImagesActivity extends Activity implements I_Async {
         initFilteredList(tmpImageList);
     }
 
+    public void setImageModelList(List<ImageModel> imageModelList)
+    {
+        this._imageModelList = imageModelList;
+    }
+
+    public void setCategoryList(List<String> categoryList)
+    {
+        this._categoryList = categoryList;
+    }
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public void onBackPressed() {
+        if(filterOn)
+            initList();
+        else
+            super.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         int id = item.getItemId();
 
-        if (id == R.id.action_categories) {
-            imgCotroller.showCatogoryListDialog(context,categoryList);
+        if (id == R.id.action_categories && !_categoryList.isEmpty()) {
+            _sImgCotroller.showCategoryListDialog(_context, _categoryList);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

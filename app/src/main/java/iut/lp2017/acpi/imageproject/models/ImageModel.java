@@ -17,118 +17,131 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Marek on 26/01/2017.
+ * Created on 26/01/2017.
  */
 
 public class ImageModel {
-    protected Bitmap imageBitmap;
-    protected int id;
-    protected String nom;
-    private String description;
-    private String urlLink;
-    private String localpath;
-    protected double taille;
-    protected List<String> categories;
-    private static Context context;
+    private static Context _sContext;
+    private List<String> _categories;
+    private Bitmap _imageBitmap;
+    private int _id;
+    private String _nom;
+    private String _description;
+    private String _urlLink;
+    private String _localpath;
+    private double _taille;
 
     public ImageModel()
     {
-        imageBitmap = null;
-        id = -1;
-        nom = null;
-        localpath = null;
-        urlLink = null;
-        context = null;
-        taille = -1;
-        categories = new ArrayList<String>();
+        _id = -1;
+        _nom = null;
+        _taille = -1;
+        _urlLink = null;
+        _sContext = null;
+        _localpath = null;
+        _imageBitmap = null;
+        _categories = new ArrayList<String>();
     }
 
     public ImageModel(Context context, int id, String nom)
     {
-            this();
-            this.context = context;
-            this.id = id;
-            this.nom = nom;
+        this();
+        _id = id;
+        _nom = nom;
+        _sContext = context;
     }
 
-    public String getImageLink() {
-        return this. urlLink;
+    public String getImageLink()
+    {
+        return _urlLink;
     }
 
-    public String getNom() {
-        return nom;
+    public String getNom()
+    {
+        return _nom;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setNom(String nom)
+    {
+        _nom = nom;
     }
 
-    public Bitmap getImageBitmap() {
-        return this.imageBitmap;
+    public Bitmap getImageBitmap()
+    {
+        return _imageBitmap;
     }
 
-    public void setImageBitmap(Bitmap imgBitmap) {
-        this.imageBitmap = imgBitmap;
+    public void setImageBitmap(Bitmap imgBitmap)
+    {
+        _imageBitmap = imgBitmap;
     }
 
-     public int getId() {
-        return id;
+     public int getId()
+     {
+        return _id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int id)
+    {
+        _id = id;
     }
 
-    public void setImageLink(String imageLink) {
-        this. urlLink = imageLink;
+    public void setImageLink(String imageLink)
+    {
+        _urlLink = imageLink;
     }
 
-    public double getTaille() {
-        return taille;
+    public double getTaille()
+    {
+        return _taille;
     }
 
-    public void setTaille(double taille) {
-        this.taille = taille;
+    public void setTaille(double taille)
+    {
+        _taille = taille;
     }
 
-    public String getUrlLink() {
-        return urlLink;
+    public String getUrlLink()
+    {
+        return _urlLink;
     }
 
-    public void setUrlLink(String urlLink) {
-        this.urlLink = urlLink;
+    public void setUrlLink(String urlLink)
+    {
+        _urlLink = urlLink;
     }
 
-    public String getLocalpath() {
-        return localpath;
+    public String getLocalpath()
+    {
+        return _localpath;
     }
 
-    public void setLocalpath(String localpath) { this.localpath = localpath; }
+    public void setLocalpath(String localpath) { _localpath = localpath; }
 
     public Context getContext() {
-        return context;
+        return _sContext;
     }
 
     public void setContext(Context context) {
-        this.context = context;
+        _sContext = context;
     }
 
     public List<String> getCategories() {
-        return categories;
+        return _categories;
     }
 
-    public void setCategories(List<String> categories) { this.categories = categories; }
+    public void setCategories(List<String> categories) { _categories = categories; }
 
     public void addCategorie(String categorie) {
-        this.categories.add(categorie);
+        _categories.add(categorie);
     }
 
     public String getDescription() {
-        return description;
+        return _description;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        _description = description;
     }
 
     public void updateBitmap()
@@ -146,13 +159,33 @@ public class ImageModel {
         }
     }
 
+    @Override
+    public String toString()
+    {
+        return "ImageModel{" +
+                "id=" + _id +
+                ", nom='" + _nom + '\'' +
+                ", description='" + _description + '\'' +
+                ", link='" + _urlLink + '\'' +
+                ", localPath='"+ _localpath + '\'' +
+                ", catégories: [" + getCategoriesStringified() + "]}";
+    }
+
+    public String getCategoriesStringified()
+    {
+        String categs = "";
+        for(String categ : _categories)
+            categs += categ + ", ";
+        return categs.length() > 0 ? categs.substring(0,categs.length()-2) : "";
+    }
+
     private void updateBitmapFromLocalStorage()
     {
         try
         {
-            File f = new File(localpath);
-            imageBitmap = BitmapFactory.decodeStream(new FileInputStream(f));
-            taille = imageBitmap.getRowBytes();
+            File f = new File(_localpath);
+            _imageBitmap = BitmapFactory.decodeStream(new FileInputStream(f));
+            _taille = _imageBitmap.getRowBytes();
         }
         catch (FileNotFoundException e)
         {
@@ -164,13 +197,13 @@ public class ImageModel {
     {
         try
         {
-            URL url = new URL(urlLink);
+            URL url = new URL(_urlLink);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoInput(true);
             connection.connect();
             InputStream input = connection.getInputStream();
-            imageBitmap = BitmapFactory.decodeStream(input);
-            taille = imageBitmap.getRowBytes();
+            _imageBitmap = BitmapFactory.decodeStream(input);
+            _taille = _imageBitmap.getRowBytes();
         }
         catch (IOException e)
         {
@@ -180,28 +213,28 @@ public class ImageModel {
 
     private void updateLocalpath()
     {
-        localpath = getLocalSaveDirectory() + '/' + nom;
+        _localpath = getLocalSaveDirectory() + '/' + _nom;
     }
 
     private static String getLocalSaveDirectory()
     {
-        ContextWrapper cw = new ContextWrapper(context);
+        ContextWrapper cw = new ContextWrapper(_sContext);
         File directory = cw.getDir("miniProjAndro", Context.MODE_PRIVATE);
         return directory.getAbsolutePath();
     }
 
     private boolean imageExistsLocally()
     {
-        return new File(localpath).exists();
+        return new File(_localpath).exists();
     }
 
     private boolean persistBitmapLocally()
     {
         FileOutputStream fos = null;
         try {
-            File img_path = new File(localpath);
+            File img_path = new File(_localpath);
             fos = new FileOutputStream(img_path);
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            _imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -216,28 +249,4 @@ public class ImageModel {
         return true;
     }
 
-    @Override
-    public String toString()
-    {
-        String cats = ", catégories :[";
-        for(String categ : categories)
-            cats += categ + ", ";
-        cats = cats.substring(0,cats.length()-2) + "]";
-
-        return "ImageModel{" +
-                "id=" + id +
-                ", nom='" + nom + '\'' +
-                ", description='" + description + '\'' +
-                ", link='" + urlLink + '\'' +
-                ", localPath='"+ localpath + '\'' +
-                ", catégories: [" + getCategoriesStringified() + "]}";
-    }
-
-    public String getCategoriesStringified()
-    {
-        String categs = "";
-        for(String categ : categories)
-            categs += categ + ", ";
-        return categs.length() > 0 ? categs.substring(0,categs.length()-2) : "";
-    }
 }

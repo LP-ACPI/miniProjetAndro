@@ -15,7 +15,11 @@
     <string name="allCategories">Tout</string>
     <string name="categories">Categorie(s): </string>
     <string name="categoryFilter">Filtrer par catégorie</string>
-    <string name="images_downloaded">images téléchargées!</string>
-    <string name="downloading_images">téléchargement d\'images...</string>
+    <string name="download_success">Données téléchargées!</string>
+    <string name="download_fail">téléchargement échoué...</string>
+    <string name="downloading_images">téléchargement de données...</string>
     <string name="filtred_by">filtré par</string>
+    <string name="retry">Reéssayer</string>
+    <string name="quit">Quitter</string>
+    <string name="InternetConnectionWarning">Veuillez activer votre connexion internet</string>
 </resources>
